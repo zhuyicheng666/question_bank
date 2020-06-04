@@ -3,7 +3,14 @@ import VueRouter from 'vue-router'
 import Login from '../views/Login.vue'
 import Register from '../views/Register.vue'
 import Home from '../views/Home.vue'
-
+import aaa from '../views/aaa.vue'
+import Data from '../views/Data.vue'
+import Release from '../views/Release.vue'
+import Community from '../views/Community.vue'
+import typeCalculate from '../views/type/typeCalculate.vue'
+import typeFill from '../views/type/typeFill.vue'
+import typeChoice from '../views/type/typeChoice.vue'
+import typeJudge from '../views/type/typeJudge.vue'
 Vue.use(VueRouter)
 
   const routes = [
@@ -20,7 +27,49 @@ Vue.use(VueRouter)
   {
     path:'/home',
     name: 'Home',
-    component: Home
+    component: Home,
+    children:[
+      {
+        path:'/data',
+        name: 'Data',
+        component: Data
+      },
+      {
+        path:'/release',
+        name: 'Release',
+        component: Release
+      },
+      {
+        path:'/community',
+        name: 'Community',
+        component: Community
+      },
+      {
+        path:'/type-calculate',
+        name: 'typeCalculate',
+        component:typeCalculate
+      },
+      {
+        path:'/type-fill',
+        name: 'typeFill',
+        component:typeFill
+      },
+      {
+        path:'/type-choice',
+        name: 'typeChoice',
+        component:typeChoice
+      },
+      {
+        path:'/type-judge',
+        name: 'typeJudge',
+        component:typeJudge
+      },
+    ]
+  },
+  {
+    path:'/aaa',
+    name: 'aaa',
+    component: aaa
   }
 
 ]

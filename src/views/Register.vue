@@ -109,7 +109,11 @@ export default {
               password: this.ruleForm.password
             })
             .then(function() {      
-               this.$router.push('/')
+              this.$message({
+              message: '恭喜你，注册成功',
+              type: 'success'
+        });
+               this.$router.push('/login')
             }.bind(this));
             
         }
