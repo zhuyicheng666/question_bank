@@ -43,6 +43,7 @@
 <script>
 
 export default {
+  name:"Login",
   data(){
          
          //这是一个自定义验证规则 其中reg一个判单11个数字的正则表达式

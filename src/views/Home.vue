@@ -11,8 +11,8 @@
                 :default-active="activeIndex"
                 class="el-menu-demo"
                 mode="horizontal"
-                @select="handleSelect"
-                router="true"
+               
+                :router="true"
                
                 
               >
@@ -22,13 +22,13 @@
                 
 
                   
-                    <el-submenu index="type">
+                    <el-submenu index="/type">
                       <template slot="title">题目类型</template>
                       
-                      <el-menu-item index="type-choice">选择</el-menu-item>
-                      <el-menu-item index="type-fill">填空</el-menu-item>
-                      <el-menu-item index="type-judge">判断</el-menu-item>
-                      <el-menu-item index="type-calculate">计算</el-menu-item>
+                      <el-menu-item index="/type-choice">选择</el-menu-item>
+                      <el-menu-item index="/type-fill">填空</el-menu-item>
+                      <el-menu-item index="/type-judge">判断</el-menu-item>
+                      <el-menu-item index="/type-calculate">计算</el-menu-item>
                     </el-submenu>
                  
 
@@ -54,28 +54,27 @@
       </el-header>
 
       <!-- 内容区域 -->
-      <el-body>
+    <el-main>
         
         <router-view>
 
         </router-view>
       
-      </el-body>
+     </el-main>
     </el-container>
   </div>
 </template>
 
 <script>
 export default {
+  name:"Home",
   data() {
     return {
       activeIndex: "1"
     };
   },
   methods: {
-    handleSelect(key, keyPath) {
-      console.log(key, keyPath);
-    },
+   
     //退出
     logout(){
       // 清空sessionStorage的token
@@ -107,4 +106,6 @@ export default {
     display flex
     align-items center
     }
+.el-header 
+  margin-bottom :10px
 </style>
