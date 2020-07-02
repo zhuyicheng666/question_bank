@@ -3,7 +3,10 @@ import VueRouter from 'vue-router'
 import Login from '../views/Login.vue'
 import Register from '../views/Register.vue'
 import Home from '../views/Home.vue'
+
 import aaa from '../views/aaa.vue'
+import b from '../views/b.vue'
+
 import Data from '../views/Data.vue'
 import Release from '../views/Release.vue'
 import Community from '../views/Community.vue'
@@ -11,6 +14,8 @@ import typeCalculate from '../views/type/typeCalculate.vue'
 import typeFill from '../views/type/typeFill.vue'
 import typeChoice from '../views/type/typeChoice.vue'
 import typeJudge from '../views/type/typeJudge.vue'
+import checkList from '../views/type/checkList.vue'
+import generation from '../views/type/generation.vue'
 Vue.use(VueRouter)
 
   const routes = [
@@ -28,6 +33,7 @@ Vue.use(VueRouter)
     path:'/home',
     name: 'Home',
     component: Home,
+    redirect:'/data',
     children:[
       {
         path:'/data',
@@ -64,12 +70,28 @@ Vue.use(VueRouter)
         name: 'typeJudge',
         component:typeJudge
       },
+      {
+        path:'/checkList',
+        name: 'checkList',
+        component:checkList
+      },  
+      {
+        path:'/generate',
+        name: 'generate',
+        component: generation
+      },
     ]
   },
+
   {
     path:'/aaa',
     name: 'aaa',
     component: aaa
+  },
+  {
+    path:'/b',
+    name: 'b',
+    component: b
   }
 
 ]

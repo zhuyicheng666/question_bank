@@ -2,16 +2,16 @@
 <template>
   <div>
     
-    <Base :tableData="tableData"/>
+    <baseCheck :tableData="tableData"/>
   </div>
 </template>
 
 <script>
-import Base from "./base.vue"
+import baseCheck from "./baseCheck.vue"
 export default {
   name:"typeFill",
   components:{
-    Base
+    baseCheck
   },
   data(){
     return {

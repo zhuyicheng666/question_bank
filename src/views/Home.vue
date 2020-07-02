@@ -11,6 +11,7 @@
                 :default-active="activeIndex"
                 class="el-menu-demo"
                 mode="horizontal"
+                text-color="#409EFF"
                
                 :router="true"
                
@@ -70,7 +71,7 @@ export default {
   name:"Home",
   data() {
     return {
-      activeIndex: "1"
+      activeIndex: "/data"
     };
   },
   methods: {
@@ -93,13 +94,20 @@ export default {
   .el-col 
     height 100%
     .el-menu-demo
-      >.el-menu-item,>.el-submenu
+      .el-menu-item,.el-submenu
         display inline-block
         width 25%
-
+   
+    
     .el-menu-item,.el-submenu {
       text-align: center;
+      font-size:18px
+      font-weight:530
     }
+    .el-submenu>>>.el-submenu__title
+      font-size:18px
+      font-weight:530
+   
 
   .logout {
     
@@ -108,4 +116,5 @@ export default {
     }
 .el-header 
   margin-bottom :10px
+ 
 </style>

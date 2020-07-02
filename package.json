@@ -11,6 +11,8 @@
     "axios": "^0.19.2",
     "core-js": "^3.6.5",
     "element-ui": "^2.13.2",
+    "html2canvas": "^1.0.0-rc.5",
+    "jspdf": "^1.5.3",
     "normalize.css": "^8.0.1",
     "vue": "^2.6.11",
     "vue-axios": "^2.1.5",
@@ -42,9 +44,7 @@
     "parserOptions": {
       "parser": "babel-eslint"
     },
-    "rules": {
-      
-    }
+    "rules": {}
   },
   "browserslist": [
     "> 1%",

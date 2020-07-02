@@ -1,6 +1,8 @@
 <template>
   <div class="table">
     <el-card shadow="always" class="tableCard">
+      <h2 class="title">已选题目</h2>
+
       <el-table :data="pageTableData" style="width: 100%" :row-class-name="tableRowClassName">
         <el-table-column type="expand">
           <template slot-scope="props">
@@ -32,10 +34,13 @@
       </el-table>
       <el-pagination
         layout="prev, pager, next"
-        :total="tableData.length"
+        :total="this.$store.getters.getChoosedItemsNumber"
         :page-size="pageSize"
         @current-change="handleCurrentChange"
       ></el-pagination>
+
+      <el-button type="primary" round icon="el-icon-arrow-left" class="back" @click="handleBack">返回</el-button>
+      <el-button type="primary" round class="next" @click="handleNext">下一步 <i class="el-icon-arrow-right el-icon--right" ></i></el-button>
     </el-card>
   
 
@@ -47,7 +52,7 @@
 
 <script>
 export default {
-  name:'Base',
+  name:'checkList',
   data() {
     return {
       currentPage: 0,
@@ -58,7 +63,7 @@ export default {
       
     };
   },
-  props:['tableData'],
+  
 
   computed: {
 
@@ -67,17 +72,17 @@ export default {
       let newTableData = [],
         cur = 0;
 
-      while(cur<this.tableData.length)
+      while(cur<this.$store.getters.getChoosedItemsNumber)
       {
 
-        if (cur+this.pageSize<=this.tableData.length){
+        if (cur+this.pageSize<=this.$store.getters.getChoosedItemsNumber){
         
-        newTableData.push(this.tableData.slice(cur, cur+this.pageSize));
+        newTableData.push(this.$store.state.choosedItems.slice(cur, cur+this.pageSize));
         
         }
         else{
           
-            newTableData.push(this.tableData.slice(cur, this.tableData.length));
+            newTableData.push(this.$store.state.choosedItems.slice(cur, this.$store.getters.getChoosedItemsNumber));
         }
         cur = cur + this.pageSize;
       }
@@ -107,26 +112,30 @@ export default {
       return "";
     },
     chooseItem({ id }) {
-      if (!this.$store.state.choosedItems.includes(id)) {
-        this.$store.state.choosedItems.push(id);
-      }
+      this.$store.commit('add',{id})
     },
     deleteItem({ id }) {
-      let index = this.$store.state.choosedItems.indexOf(id);
-      if (index !== -1) {
-        this.$store.state.choosedItems.splice(index, 1);
-      }
+      this.$store.commit('delete',{id})
     },
 
     handleCurrentChange(val) {
       this.currentPage = val - 1;
     },
-
+    handleBack(){
+      this.$router.go(-1)
+    },
+    handleNext(){
+      this.$router.push('/generate')
+    }
+    
   }
 };
 </script>
 
 <style lang="stylus" scoped>
+.title 
+  text-align center
+  color:#409EFF
 .demo-table-expand {
   font-size: 0;
 }
@@ -155,6 +164,22 @@ export default {
 }
 .el-pagination{
   text-align center
+}
+
+.back,.next{
+  position fixed
+  top 50%
+  
+}
+
+.back{
+  left 0
+  transform: translate(0,-100%);
+}
+
+.next{
+  right 0
+  transform: translate(0,-100%);
 }
 
 
