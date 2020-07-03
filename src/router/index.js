@@ -8,7 +8,7 @@ import aaa from '../views/aaa.vue'
 import b from '../views/b.vue'
 
 import Data from '../views/Data.vue'
-import Release from '../views/Release.vue'
+import Release from '../views/release/Release.vue'
 import Community from '../views/Community.vue'
 import typeCalculate from '../views/type/typeCalculate.vue'
 import typeFill from '../views/type/typeFill.vue'
