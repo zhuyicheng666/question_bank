@@ -6,6 +6,7 @@ import "normalize.css"
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 import axios from 'axios'
+import 'default-passive-events'
 
 import htmlToPdf from './utils/htmlToPdf'
 // 使用Vue.use()方法就会调用工具方法中的install方法

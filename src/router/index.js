@@ -9,7 +9,7 @@ import b from '../views/b.vue'
 
 import Data from '../views/Data.vue'
 import Release from '../views/release/Release.vue'
-import Community from '../views/Community.vue'
+import Community from '../views/community/Community.vue'
 import typeCalculate from '../views/type/typeCalculate.vue'
 import typeFill from '../views/type/typeFill.vue'
 import typeChoice from '../views/type/typeChoice.vue'
