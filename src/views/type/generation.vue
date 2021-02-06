@@ -36,7 +36,7 @@
         <span>姓名</span>
         <input type="text">
       </div>
-
+<!-- 
       <div class="Fill">
         
          <el-table
@@ -58,14 +58,14 @@
             </el-table-column>
             
         </el-table>
-      </div>
+      </div> -->
 
       <div class="Choice">
-         <el-table
+    
+         <!-- <el-table
             :data="fillTableData"
             style="width: 100%"
             class="fillTable"
-            
             >
 
           <el-table-column
@@ -79,11 +79,30 @@
               min-width="100%">
             </el-table-column>
             
-        </el-table>
+        </el-table> -->
+      <el-row>
+        <el-col :offset="1"><h2>选择题</h2></el-col>
+      </el-row>
+      <div v-for="(item,index) in tableData" :key="index" class="line marginBottom">
+        <el-row class="marginBottom">
+           <el-col :span="1" :offset="1">{{index+1}}</el-col>
+           <el-col :span="20"><div>{{item.desc}}</div></el-col>
+        </el-row>
+        <el-row class="marginBottom">
+          
+          <el-col :span="5" :offset="2">{{item.option1}}</el-col>
+          <el-col :span="5">{{item.option2}}</el-col>
+          <el-col :span="5">{{item.option3}}</el-col>
+          <el-col :span="5">{{item.option4}}</el-col>
+        </el-row>
+        
+      </div>
+     
+
       </div>
 
       <div class="Judge">
-        <el-table
+        <!-- <el-table
             :data="fillTableData"
             style="width: 100%"
             class="fillTable"
@@ -101,10 +120,18 @@
               min-width="100%">
             </el-table-column>
             
-        </el-table>
+        </el-table> -->
+          <el-row>
+        <el-col :offset="1"><h2>判断题</h2></el-col>
+      </el-row>
+      <div v-for="(item,index) in judgeTableData" :key="index" class="line marginBottom">
+        <el-row class="marginBottom">
+           <el-col :span="1" :offset="1">{{index+1}}</el-col>
+           <el-col :span="20"><div>{{item.desc}}</div></el-col>
+        </el-row>
       </div>
-
-      <div class="Calculate">
+      </div>
+      <!-- <div class="Calculate">
          <el-table
             :data="fillTableData"
             style="width: 100%"
@@ -124,14 +151,15 @@
             </el-table-column>
             
         </el-table>
-      </div>
+      </div> -->
    
       
 
     </el-card>
   
      <el-button type="primary" round icon="el-icon-arrow-left" class="back" @click="handleBack">返回</el-button>
-      <el-button type="primary" round class="generate" @click="handleGenerate">生成 <i class="el-icon-arrow-right el-icon--right" ></i></el-button>
+      <el-button type="primary" round class="generate" @click="handleGenerate">生成pdf <i class="el-icon-arrow-right el-icon--right" ></i></el-button>
+      <el-button type="primary" round class="generateWord" @click="handleGenerate">生成word <i class="el-icon-arrow-right el-icon--right" ></i></el-button>
    </div>
 
 </template>
@@ -170,7 +198,81 @@ export default {
   A wode B sddd
   C  sdasd D sdsdd`
         
-      }]
+      }],
+      judgeTableData:[
+         {id: "111",
+          level: "2级",
+          knowledge: "二元一次方式解法",
+          desc: "1+2等于3( )",
+           chapter: "加法",
+          frequency: 3,
+         
+          answer:"true",
+          type:"choice"},
+           {id: "111",
+          level: "2级",
+          knowledge: "二元一次方式解法",
+          desc: "1+2等于3( )",
+           chapter: "加法",
+          frequency: 3,
+         
+          answer:"true",
+          type:"choice"},
+           {id: "111",
+          level: "2级",
+          knowledge: "二元一次方式解法",
+          desc: "1+2等于3( )",
+           chapter: "加法",
+          frequency: 3,
+         
+          answer:"true",
+          type:"choice"}
+      ],
+       tableData: [
+        {
+          id: "12987122",
+          level: "1级",
+          knowledge: "这是选择题",
+          desc: "1+1等于2( )",
+          chapter: "加法",
+          frequency: 3,
+          option1:"A:optionA",
+          option2:"B:optionB",
+          option3:"C:optionC",
+          option4:"D:optionD",
+          answer:"A",
+           type:"choice"
+        },
+        {
+          id: "122",
+          level: "3级",
+          knowledge: "二元一次方式解法",
+          desc: "5+1等于5( )",
+           chapter: "加法",
+          frequency: 3,
+          option1:"A:optionA",
+          option2:"B:optionB",
+          option3:"C:optionC",
+          option4:"D:optionD",
+          answer:"A",
+           type:"choice"
+        },
+        {
+          id: "129",
+          level: "1级",
+          knowledge: "二元一次方式解法",
+          desc:
+            "1525+2=15151525+2=15151525+2=1515151525+2=15151525+2=15151525+2=1515151525+2=15151525+2=15151525+2=1515151525+2=15151525+2=15151525+2=1515151525+2=15151525+2=15151525+2=1515151525+2=15151525+2=15151525+2=1515151525+2=15151525+2=15151525+2=15151525+2=15151525+2=15151525+2=15151525+2=15151525+2=15151525+2=15151525+2=15151525+2=15151525+2=1515( )",
+             chapter: "加法",
+          frequency: 3,
+          option1:"A:optionA",
+          option2:"B:optionB",
+          option3:"C:optionC",
+          option4:"D:optionD",
+          answer:"A",
+           type:"choice"
+        },
+      ],
     }
   },
   computed:{
@@ -237,8 +339,12 @@ export default {
     }
     .back,.generate{
     position fixed
-    top 50%
+    top 45%
 
+    }
+    .generateWord{
+       position fixed
+    top 55%
     }
 
     .back{
@@ -246,9 +352,16 @@ export default {
     transform: translate(0,-100%);
     }
 
-    .generate{
+    .generate, .generateWord{
     right 0
     transform: translate(0,-100%);
     }
-  
+    .line{
+      font-size:20px
+      word-wrap:break-word
+      word-break:normal
+    }
+    .marginBottom{
+      margin-bottom: 15px
+    }
 </style>

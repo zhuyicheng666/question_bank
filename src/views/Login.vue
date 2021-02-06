@@ -38,6 +38,7 @@
         <router-link to="/register" class="to_register">没有账户？立即注册一个</router-link>
      </div>
   </div>
+
 </template>
 
 <script>
@@ -64,7 +65,6 @@ export default {
     return{
         //角色切换
         job:"学生入口",
-
         //表单
         ruleForm: {
           name: '',
@@ -98,15 +98,20 @@ export default {
             返回 {token}
 
         */
-         this.$axios.get('/login',this.ruleForm)
+         this.$axios.post('http://localhost:3000/login',{data:this.ruleForm})
          .then(function(res){
           
              //  1.登陆成功后，保存token到sessionStorage
              //  2.通过编程式导航转跳到主页面
              //  注：由于this问题，需要在函数后面bind
-         
-          window.sessionStorage.setItem('token',res.data.token);
-          this.$router.push('/home')
+          if(res.data.status===1){
+            window.sessionStorage.setItem('token',res.data.token);
+            this.$router.push('/home')
+          }else{
+            alert('用户名或密码不正确')
+            this.resetForm('ruleForm')
+          }
+          
          }.bind(this)
         
          )

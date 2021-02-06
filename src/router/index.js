@@ -33,7 +33,7 @@ Vue.use(VueRouter)
     path:'/home',
     name: 'Home',
     component: Home,
-    redirect:'/data',
+    redirect:'/type-choice',
     children:[
       {
         path:'/data',

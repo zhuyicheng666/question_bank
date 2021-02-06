@@ -19,17 +19,17 @@
               >
                
                   
-                    <el-menu-item index="/data">我的数据</el-menu-item>
+                    <!-- <el-menu-item index="/data"  >我的数据</el-menu-item> -->
                 
 
                   
-                    <el-submenu index="/type">
+                    <el-submenu index="/type" >
                       <template slot="title">题目类型</template>
                       
-                      <el-menu-item index="/type-choice">选择</el-menu-item>
-                      <el-menu-item index="/type-fill">填空</el-menu-item>
+                      <el-menu-item index="/type-choice"  style="width:100px">选择</el-menu-item>
+                      <!-- <el-menu-item index="/type-fill">填空</el-menu-item> -->
                       <el-menu-item index="/type-judge">判断</el-menu-item>
-                      <el-menu-item index="/type-calculate">计算</el-menu-item>
+                      <!-- <el-menu-item index="/type-calculate">计算</el-menu-item> -->
                     </el-submenu>
                  
 
@@ -38,9 +38,9 @@
                   
 
                  
-                    <el-menu-item index="/community">
+                    <!-- <el-menu-item index="/community">
                       社区中心
-                    </el-menu-item>
+                    </el-menu-item> -->
                  
                
               </el-menu>

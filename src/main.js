@@ -18,7 +18,8 @@ Vue.use(htmlToPdf)
 
 // 设置axios默认的url
 // 将axios挂载到vue原型上
-axios.defaults.baseURL="https://mock.yonyoucloud.com/mock/7453"
+// axios.defaults.baseURL="https://mock.yonyoucloud.com/mock/7453"
+// axios.defaults.baseURL="http://localhost:3000"
 Vue.prototype.$axios=axios
 
 Vue.config.productionTip = false

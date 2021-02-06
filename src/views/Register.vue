@@ -104,17 +104,30 @@ export default {
             参数{角色，用户名，密码}
             返回 {}
         */
-          this.$axios.post("/register", {
-              role: this.ruleForm.role,
+
+
+          this.$axios.post("http://localhost:3000/register", {data:{
+              role: this.ruleForm.role==='学生'?'student':'teacher',
               name: this.ruleForm.name,
               password: this.ruleForm.password
+          }
+            
             })
-            .then(function() {      
-              this.$message({
+            .then(function(res) {
+              if(res.data.status===1){
+                  this.$message({
               message: '恭喜你，注册成功',
               type: 'success'
         });
                this.$router.push('/login')
+              }else{
+                this.$message({
+              message: res.data.message,
+              type: 'error'
+              });
+              this.resetForm('ruleForm')
+              }
+            
             }.bind(this));
             
         }

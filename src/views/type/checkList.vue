@@ -3,41 +3,7 @@
     <el-card shadow="always" class="tableCard">
       <h2 class="title">已选题目</h2>
 
-      <el-table :data="pageTableData" style="width: 100%" :row-class-name="tableRowClassName">
-        <el-table-column type="expand">
-          <template slot-scope="props">
-            <el-form label-position="left" inline class="demo-table-expand">
-              <el-form-item label="完整描述">
-                <span>{{ props.row.desc }}</span>
-              </el-form-item>
-            </el-form>
-          </template>
-        </el-table-column>
-
-        <el-table-column label="编号" prop="id"></el-table-column>
-
-        <el-table-column label="难度" prop="level"></el-table-column>
-
-        <el-table-column label="知识点" prop="knowledge"></el-table-column>
-
-        <el-table-column label="描述">
-          <template v-slot="scope">{{scope.row.desc|ellipsis}}</template>
-        </el-table-column>
-
-        <el-table-column label="操作(加入/取消)" width="200px">
-          <template v-slot="scope">
-            <el-button type="success" icon="el-icon-check" circle @click="chooseItem(scope.row)"></el-button>
-
-            <el-button type="danger" icon="el-icon-delete" circle @click="deleteItem(scope.row)"></el-button>
-          </template>
-        </el-table-column>
-      </el-table>
-      <el-pagination
-        layout="prev, pager, next"
-        :total="this.$store.getters.getChoosedItemsNumber"
-        :page-size="pageSize"
-        @current-change="handleCurrentChange"
-      ></el-pagination>
+     <Base ref="base"  :tableData="tableData"/>
 
       <el-button type="primary" round icon="el-icon-arrow-left" class="back" @click="handleBack">返回</el-button>
       <el-button type="primary" round class="next" @click="handleNext">下一步 <i class="el-icon-arrow-right el-icon--right" ></i></el-button>
@@ -51,15 +17,91 @@
 
 
 <script>
+import Base from "./base.vue"
 export default {
   name:'checkList',
+    components:{
+     Base
+    
+   },
   data() {
     return {
       currentPage: 0,
      
       
       pageSize:2,
-      
+       tableData: [
+        {
+          id: "12987122",
+          level: "1级",
+          knowledge: "这是选择题",
+          desc: "1+1等于2",
+          chapter: "加法",
+          frequency: 3,
+          option1:"A:optionA",
+          option2:"B:optionB",
+          option3:"C:optionC",
+          option4:"D:optionD",
+          answer:"A",
+           type:"choice"
+        },
+        {
+          id: "122",
+          level: "3级",
+          knowledge: "二元一次方式解法",
+          desc: "5+1等于5",
+           chapter: "加法",
+          frequency: 3,
+          option1:"A:optionA",
+          option2:"B:optionB",
+          option3:"C:optionC",
+          option4:"D:optionD",
+          answer:"A",
+           type:"choice"
+        },
+        {
+          id: "129",
+          level: "1级",
+          knowledge: "二元一次方式解法",
+          desc:
+            "1525+2=15151525+2=15151525+2=15151525+2=15151525+2=15151525+2=15151525+2=15151525+2=15151525+2=15151525+2=15151525+2=15151525+2=1515",
+             chapter: "加法",
+          frequency: 3,
+          option1:"A:optionA",
+          option2:"B:optionB",
+          option3:"C:optionC",
+          option4:"D:optionD",
+          answer:"A",
+           type:"choice"
+        },
+        {id: "111",
+          level: "2级",
+          knowledge: "二元一次方式解法",
+          desc: "1+2等于3",
+           chapter: "加法",
+          frequency: 3,
+         
+          answer:"true",
+          type:"choice"},
+           {id: "111",
+          level: "2级",
+          knowledge: "二元一次方式解法",
+          desc: "1+2等于3",
+           chapter: "加法",
+          frequency: 3,
+         
+          answer:"true",
+          type:"choice"},
+           {id: "111",
+          level: "2级",
+          knowledge: "二元一次方式解法",
+          desc: "1+2等于3",
+           chapter: "加法",
+          frequency: 3,
+         
+          answer:"true",
+          type:"choice"}
+      ],
       
     };
   },
@@ -67,7 +109,9 @@ export default {
 
   computed: {
 
-  
+    // choosedItems:function(){
+    //   return this.$store.state.choosedItems
+    // },
     handleTableData: function() {
       let newTableData = [],
         cur = 0;

@@ -4,21 +4,46 @@
       <el-table :data="pageTableData" style="width: 100%" :row-class-name="tableRowClassName">
         <el-table-column type="expand">
           <template slot-scope="props">
-            <el-form label-position="left" inline class="demo-table-expand">
-              <el-form-item label="完整描述">
+            <el-form label-position="left"  class="demo-table-expand">
+              <el-form-item label="完整题目描述">
                 <span>{{ props.row.desc }}</span>
+              </el-form-item>
+              <el-form-item v-if="props.row.type === 'choice'">
+                <ul>
+                  <li>{{props.row.option1}}</li>
+                  <li>{{props.row.option2}}</li>
+                  <li>{{props.row.option3}}</li>
+                  <li>{{props.row.option4}}</li>
+                </ul>
+              </el-form-item>
+              <el-form-item label="查看答案">
+                <el-checkbox v-model="showAnswer"></el-checkbox>
+              </el-form-item>
+              <el-form-item label="答案:" v-if="showAnswer">
+                <span>{{props.row.answer}}</span>
               </el-form-item>
             </el-form>
           </template>
         </el-table-column>
 
         <el-table-column label="编号" prop="id"></el-table-column>
-
         <el-table-column label="难度" prop="level"></el-table-column>
-
+        <el-table-column label="章节" prop="chapter"></el-table-column>
         <el-table-column label="知识点" prop="knowledge"></el-table-column>
+        <el-table-column label="热度" >
+           <template v-slot="scope">
+              <el-rate
+                v-model="scope.row.frequency"
+                disabled
+                show-score
+                text-color="#ff9900"
+              >
+              </el-rate>
+           </template>
+         
 
-        <el-table-column label="描述">
+        </el-table-column>
+        <el-table-column label="题目描述">
           <template v-slot="scope">{{scope.row.desc|ellipsis}}</template>
         </el-table-column>
 
@@ -51,9 +76,9 @@ export default {
   data() {
     return {
       currentPage: 0,
-     
+     showAnswer:false,
       
-      pageSize:2,
+      pageSize:5,
       
       
     };
@@ -153,6 +178,9 @@ export default {
   height: 90%;
   position: absolute;
 }
+.tableCard ul {
+  list-style:none
+} 
 .el-pagination{
   text-align center
 }

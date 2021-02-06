@@ -3,7 +3,7 @@
     <el-card shadow="always">
       <h3>发布:</h3>
       <el-tabs tab-position="left">
-        <el-tab-pane label="填空">
+        <!-- <el-tab-pane label="填空">
           <el-form :model="form" label-width="80px">
             <el-form-item label="知识点">
               <el-input v-model="form.knowledge" clearable></el-input>
@@ -28,9 +28,12 @@
               <el-button>取消</el-button>
             </el-form-item>
           </el-form>
-        </el-tab-pane>
+        </el-tab-pane> -->
         <el-tab-pane label="判断">
           <el-form :model="form" label-width="80px">
+             <el-form-item label="章节">
+              <el-input v-model="form.chapter" clearable></el-input>
+            </el-form-item>
             <el-form-item label="知识点">
               <el-input v-model="form.knowledge" clearable></el-input>
             </el-form-item>
@@ -57,6 +60,9 @@
         </el-tab-pane>
         <el-tab-pane label="选择">
           <el-form :model="form" label-width="80px">
+             <el-form-item label="章节">
+              <el-input v-model="form.chapter" clearable></el-input>
+            </el-form-item>
             <el-form-item label="知识点">
               <el-input v-model="form.knowledge" clearable></el-input>
             </el-form-item>
@@ -87,7 +93,7 @@
             </el-form-item>
           </el-form>
         </el-tab-pane>
-        <el-tab-pane label="计算">
+        <!-- <el-tab-pane label="计算">
           <el-form :model="form" label-width="80px">
             <el-form-item label="知识点">
               <el-input v-model="form.knowledge" clearable></el-input>
@@ -112,7 +118,7 @@
               <el-button>取消</el-button>
             </el-form-item>
           </el-form>
-        </el-tab-pane>
+        </el-tab-pane> -->
       </el-tabs>
     </el-card>
   </div>
@@ -128,7 +134,8 @@ export default {
         desc: "",
         knowledge: "",
         choice:["","","",""],
-        type:""
+        type:"",
+        chapter:""
       }
     };
   }

@@ -23,7 +23,7 @@
             </el-table-column>
 
 
-            <el-table-column label="难度" prop="level"></el-table-column>
+            <el-table-column label="提交者" prop="committer"></el-table-column>
 
             <el-table-column label="知识点" prop="knowledge"></el-table-column>
 
@@ -76,63 +76,63 @@ export default {
         tableData: [
         {
           
-          level: "1级",
+          committer: "tom",
           knowledge: "这是计算题",
           desc: "1+1等于2"
         },
         {
           
-          level: "2级",
+          committer: "tom",
           knowledge: "二元一次方式解法",
           desc: "1+2等于3"
         },
         {
           
-          level: "3级",
+          committer: "tom",
           knowledge: "二元一次方式解法",
           desc: "5+1等于5"
         },
         {
           
-          level: "1级",
+          committer: "tom",
           knowledge: "二元一次方式解法",
           desc:
             "1525+2=15151525+2=15151525+2=15151525+2=15151525+2=15151525+2=15151525+2=15151525+2=15151525+2=15151525+2=15151525+2=15151525+2=1515"
         },
         {
           
-          level: "1级",
+          committer: "tom",
           knowledge: "二元十次方式解法",
           desc: "1525+2=15151525+25"
         },
           {
           
-          level: "1级",
+          committer: "tom",
           knowledge: "二元一次方式解法",
           desc: "1+1等于2"
         },
         {
           
-          level: "2级",
+          committer: "tom",
           knowledge: "二元一次方式解法",
           desc: "1+2等于3"
         },
         {
           
-          level: "3级",
+          committer: "tom",
           knowledge: "二元一次方式解法",
           desc: "5+1等于5"
         },
         {
           
-          level: "1级",
+          committer: "tom",
           knowledge: "二元一次方式解法",
           desc:
             "1525+2=15151525+2=15151525+2=15151525+2=15151525+2=15151525+2=15151525+2=15151525+2=15151525+2=15151525+2=15151525+2=15151525+2=1515"
         },
         {
           
-          level: "1级",
+          committer: "tom",
           knowledge: "二元十次方式解法",
           desc: "1525+2=15151525+25"
         }
