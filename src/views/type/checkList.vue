@@ -3,10 +3,10 @@
     <el-card shadow="always" class="tableCard">
       <h2 class="title">已选题目</h2>
 
-     <Base ref="base"  :tableData="tableData"/>
+     <Base ref="base" :showChoose="false" :tableData="tableData"/>
 
       <el-button type="primary" round icon="el-icon-arrow-left" class="back" @click="handleBack">返回</el-button>
-      <el-button type="primary" round class="next" @click="handleNext">下一步 <i class="el-icon-arrow-right el-icon--right" ></i></el-button>
+      <el-button type="primary" round class="next" @click="handleNext" v-if="this.role==='teacher'">下一步 <i class="el-icon-arrow-right el-icon--right"  ></i></el-button>
     </el-card>
   
 
@@ -27,7 +27,7 @@ export default {
   data() {
     return {
       currentPage: 0,
-     
+     role:"teacher",
       
       pageSize:2,
        tableData: [

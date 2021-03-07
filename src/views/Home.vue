@@ -34,14 +34,21 @@
                  
 
                  
-                    <el-menu-item index="/release">我要发布</el-menu-item>
-                  
-
-                 
+                    
+                    <el-submenu index="/answer" v-if="this.role==='student'" >
+                      <template slot="title" >答题</template>
+                      
+                      <el-menu-item index="/searchPaper"  style="width:100px">答试卷</el-menu-item>
+                      
+                      <el-menu-item index="/exercise" >练单题</el-menu-item>
+                      
+                    </el-submenu>
+                    <el-menu-item index="/history" v-if="this.role==='student'">历史记录</el-menu-item>
+                  <el-menu-item index="/paper" v-if="this.role==='teacher'">试卷管理</el-menu-item>
                     <!-- <el-menu-item index="/community">
                       社区中心
                     </el-menu-item> -->
-                 
+                 <el-menu-item index="/release" v-if="this.role==='teacher'">上传题目</el-menu-item>
                
               </el-menu>
             </div>
@@ -71,7 +78,9 @@ export default {
   name:"Home",
   data() {
     return {
-      activeIndex: "/data"
+      activeIndex: "/data",
+      role: "teacher"
+
     };
   },
   methods: {

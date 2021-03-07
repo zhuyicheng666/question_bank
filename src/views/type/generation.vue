@@ -4,25 +4,32 @@
         <span>试卷标题</span>
         <input type="text" v-model="title">
         <br/>
-        <span>填空分值</span>
+        <!-- <span>填空分值</span>
         <input type="text" v-model="fillValue" >
         <span>填空间距</span>
         <input type="text" v-model="fillSpace">
-        <br/>
-        <span>选择分值</span>
-        <input type="text">
-        <span>选择间距</span>
-        <input type="text">
-        <br/>
+        <br/> -->
+
+
+
+
+        <!-- <span>选择分值</span>
+        <input type="text"> -->
+        <!-- <span>选择间距</span>
+        <input type="text"> -->
+        <!-- <br/>
         <span>判断分值</span>
-        <input type="text">
-        <span>判断间距</span>
-        <input type="text">
-        <br/>
-        <span>计算分值</span>
+        <input type="text"> -->
+        <!-- <span>判断间距</span>
+        <input type="text"> -->
+        <!-- <br/> -->
+
+
+
+        <!-- <span>计算分值</span>
         <input type="text">
         <span>计算间距</span>
-        <input type="text">
+        <input type="text"> -->
       </div>
 
     <el-card class="box-card" id="pdfDom">
@@ -160,6 +167,7 @@
      <el-button type="primary" round icon="el-icon-arrow-left" class="back" @click="handleBack">返回</el-button>
       <el-button type="primary" round class="generate" @click="handleGenerate">生成pdf <i class="el-icon-arrow-right el-icon--right" ></i></el-button>
       <el-button type="primary" round class="generateWord" @click="handleGenerate">生成word <i class="el-icon-arrow-right el-icon--right" ></i></el-button>
+      <el-button type="primary" round class="generateonline" @click="handleGenerateOnline">生成在线答题版本 <i class="el-icon-arrow-right el-icon--right" ></i></el-button>
    </div>
 
 </template>
@@ -281,6 +289,9 @@ export default {
     }
   },
   methods:{
+    handleGenerateOnline(){
+      this.$router.push('/onlinePreview')
+    },
       handleBack(){
       this.$router.go(-1)
     },
@@ -346,13 +357,16 @@ export default {
        position fixed
     top 55%
     }
-
+.generateonline{
+    position fixed
+    top 60%
+}
     .back{
     left 0
     transform: translate(0,-100%);
     }
 
-    .generate, .generateWord{
+    .generate, .generateWord,.generateonline{
     right 0
     transform: translate(0,-100%);
     }

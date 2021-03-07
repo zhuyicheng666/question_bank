@@ -1,6 +1,6 @@
 <template>
   <div class="table">
-    <el-card shadow="always" class="tableCard">
+    
       <el-table :data="pageTableData" style="width: 100%" :row-class-name="tableRowClassName">
         <el-table-column type="expand">
           <template slot-scope="props">
@@ -16,12 +16,16 @@
                   <li>{{props.row.option4}}</li>
                 </ul>
               </el-form-item>
-              <el-form-item label="查看答案">
+              <el-form-item label="查看答案和解析">
                 <el-checkbox v-model="showAnswer"></el-checkbox>
               </el-form-item>
               <el-form-item label="答案:" v-if="showAnswer">
                 <span>{{props.row.answer}}</span>
               </el-form-item>
+               <el-form-item label="解析:" v-if="showAnswer">
+                <span>{{props.row.resolution}}</span>
+              </el-form-item>
+
             </el-form>
           </template>
         </el-table-column>
@@ -47,13 +51,7 @@
           <template v-slot="scope">{{scope.row.desc|ellipsis}}</template>
         </el-table-column>
 
-        <el-table-column label="操作(加入/取消)" width="200px">
-          <template v-slot="scope">
-            <el-button v-show="showChoose" type="success" icon="el-icon-check" circle @click="chooseItem(scope.row)"></el-button>
-
-            <el-button type="danger" icon="el-icon-delete" circle @click="deleteItem(scope.row)"></el-button>
-          </template>
-        </el-table-column>
+       
       </el-table>
       <el-pagination
         layout="prev, pager, next"
@@ -61,7 +59,7 @@
         :page-size="pageSize"
         @current-change="handleCurrentChange"
       ></el-pagination>
-    </el-card>
+  
   
 
 
@@ -72,7 +70,7 @@
 
 <script>
 export default {
-  name:'Base',
+  name:'questionRecord',
   data() {
     return {
       currentPage: 0,
@@ -80,10 +78,56 @@ export default {
       
       pageSize:5,
       
-      
+       tableData: [
+        {
+          id: "12987122",
+          level: "1级",
+          knowledge: "这是计算题",
+          desc: "1+1等于2",
+          chapter: "加法",
+          frequency: "3",
+          type:"choice",
+           option1:'A:1',
+          option2:'B:2',
+          option3:'C:3',
+          option4:'D:4',
+           answer:'A',
+          resolution:"这里是解析"
+        },
+        {
+          id: "111",
+          level: "2级",
+          knowledge: "二元一次方式解法",
+          desc: "1+2等于3",
+          chapter: "加法",
+          frequency: "3",
+          type:"choice",
+             option1:'A:1',
+          option2:'B:2',
+          option3:'C:3',
+          option4:'D:4',
+          answer:'A',
+          resolution:"这里是解析"
+          
+        },
+        {
+          id: "122",
+          level: "3级",
+          knowledge: "二元一次方式解法",
+          desc: "5+1等于5",
+          chapter: "加法",
+          frequency: "3",
+          type:"choice",
+            option1:'A:1',
+          option2:'B:2',
+          option3:'C:3',
+          option4:'D:4',
+           answer:'A',
+          resolution:"这里是解析"
+        },]
     };
   },
-  props:['tableData','showChoose'],
+ 
 
   computed: {
 

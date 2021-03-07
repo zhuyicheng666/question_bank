@@ -49,8 +49,24 @@
             <el-form-item label="题目描述">
               <el-input type="textarea" v-model="form.desc" rows="3" clearable></el-input>
             </el-form-item>
+             <el-upload
+              class="upload-demo"
+              action="https://jsonplaceholder.typicode.com/posts/"
+              :on-preview="handlePreview"
+              :on-remove="handleRemove"
+              :before-remove="beforeRemove"
+              multiple
+              :limit="3"
+              :on-exceed="handleExceed"
+              :file-list="fileList">
+              <el-button size="small" type="primary">上传图片</el-button>
+              <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+            </el-upload>
             <el-form-item label="答案">
               <el-input type="textarea" v-model="form.desc" rows="10" clearable></el-input>
+            </el-form-item>
+            <el-form-item label="解析">
+              <el-input type="textarea" v-model="form.resolution" rows="10" clearable></el-input>
             </el-form-item>
             <el-form-item>
               <el-button type="primary" @click="onSubmit">立即创建</el-button>
@@ -78,6 +94,19 @@
             <el-form-item label="题目描述">
               <el-input type="textarea" v-model="form.desc" rows="3" clearable></el-input>
             </el-form-item>
+            <el-upload
+              class="upload-demo"
+              action="https://jsonplaceholder.typicode.com/posts/"
+              :on-preview="handlePreview"
+              :on-remove="handleRemove"
+              :before-remove="beforeRemove"
+              multiple
+              :limit="3"
+              :on-exceed="handleExceed"
+              :file-list="fileList">
+              <el-button size="small" type="primary">上传图片</el-button>
+              <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+            </el-upload>
             <el-form-item label="选项" class="choice">
               <el-input v-model="form.choice[0]"  clearable  placeholder="请输入选项A 格式为 A.xxx"></el-input>
               <el-input v-model="form.choice[1]"  clearable  placeholder="请输入选项B 格式为 A.xxx"></el-input>
@@ -86,6 +115,9 @@
             </el-form-item>
             <el-form-item label="答案">
               <el-input type="textarea" v-model="form.desc" rows="10" clearable></el-input>
+            </el-form-item>
+             <el-form-item label="解析">
+              <el-input type="textarea" v-model="form.resolution" rows="10" clearable></el-input>
             </el-form-item>
             <el-form-item>
               <el-button type="primary" @click="onSubmit">立即创建</el-button>

@@ -1,21 +1,21 @@
 <template>
   <div>
-      <check />
-      <status/>
+      <!-- <check />
+      <status/> -->
       <commit/>
   </div>
 </template>
 
 <script>
-import check from "./check.vue"
+// import check from "./check.vue"
 import commit from "./commit.vue"
-import status from "./status.vue"
+// import status from "./status.vue"
 export default {
   name:"Release",
   components:{
-    check,
+    // check,
     commit,
-    status
+    // status
   }
 }
 </script>

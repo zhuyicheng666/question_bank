@@ -118,7 +118,7 @@ export default {
                   this.$message({
               message: '恭喜你，注册成功',
               type: 'success'
-        });
+             });
                this.$router.push('/login')
               }else{
                 this.$message({
