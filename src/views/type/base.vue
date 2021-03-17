@@ -1,39 +1,48 @@
 <template>
   <div class="table">
     <el-card shadow="always" class="tableCard">
-      <el-table :data="pageTableData" style="width: 100%" :row-class-name="tableRowClassName">
+      
+ <el-table :data="pageTableData" style="width: 100%" :row-class-name="tableRowClassName">
         <el-table-column type="expand">
           <template slot-scope="props">
             <el-form label-position="left"  class="demo-table-expand">
               <el-form-item label="完整题目描述">
-                <span>{{ props.row.desc }}</span>
+                <span>{{ props.row.question }}</span>
               </el-form-item>
               <el-form-item v-if="props.row.type === 'choice'">
                 <ul>
-                  <li>{{props.row.option1}}</li>
-                  <li>{{props.row.option2}}</li>
-                  <li>{{props.row.option3}}</li>
-                  <li>{{props.row.option4}}</li>
+                  <li>A: {{props.row.optionA}}</li>
+                  <li>A: {{props.row.optionB}}</li>
+                  <li>C: {{props.row.optionC}}</li>
+                  <li>D: {{props.row.optionD}}</li>
+                </ul>
+              </el-form-item>
+              <el-form-item v-if="props.row.type === 'judgement'">
+                <ul>
+                  <li> {{props.row.optionA}}</li>
+                  <li> {{props.row.optionB}}</li>
                 </ul>
               </el-form-item>
               <el-form-item label="查看答案">
                 <el-checkbox v-model="showAnswer"></el-checkbox>
               </el-form-item>
               <el-form-item label="答案:" v-if="showAnswer">
-                <span>{{props.row.answer}}</span>
+
+                <!-- <span>{{props.row.answer}}</span> -->
+                 <span>{{dataFormat(props.row.type,props.row.answer)}}</span>
               </el-form-item>
             </el-form>
           </template>
         </el-table-column>
 
-        <el-table-column label="编号" prop="id"></el-table-column>
-        <el-table-column label="难度" prop="level"  :filters="[{text:'1级',value:'1级'},{text:'2级',value:'2级'}]" :filter-method="filterHandler"></el-table-column>
+        <el-table-column label="编号" prop="qid"></el-table-column>
+        <el-table-column label="难度" prop="difficulty" :formatter="dateFormat" :filters="[{text:'1级',value:'1级'},{text:'2级',value:'2级'}]" :filter-method="filterHandler"></el-table-column>
         <el-table-column label="章节" prop="chapter"  :filters="[{text:'加法',value:'加法'},{text:'减法',value:'减法'}]" :filter-method="filterHandler"></el-table-column>
-        <el-table-column label="知识点" prop="knowledge"  :filters="[{text:'二元一次方式解法',value:'二元一次方式解法'},{text:'2级',value:'2级'}]" :filter-method="filterHandler"></el-table-column>
+        <el-table-column label="知识点" prop="knowledgePoint"  :filters="[{text:'二元一次方式解法',value:'二元一次方式解法'},{text:'2级',value:'2级'}]" :filter-method="filterHandler"></el-table-column>
         <el-table-column label="热度"  :filters="[{text:'1',value:'1'},{text:'2',value:'2'}]" :filter-method="filterHandler" >
            <template v-slot="scope">
               <el-rate
-                v-model="scope.row.frequency"
+                v-model="scope.row.citations"
                 disabled
                 show-score
                 text-color="#ff9900"
@@ -44,7 +53,7 @@
 
         </el-table-column>
         <el-table-column label="题目描述">
-          <template v-slot="scope">{{scope.row.desc|ellipsis}}</template>
+          <template v-slot="scope">{{scope.row.question|ellipsis}}</template>
         </el-table-column>
 
         <el-table-column label="操作(加入/取消)" width="200px">
@@ -55,6 +64,8 @@
           </template>
         </el-table-column>
       </el-table>
+    
+     
       <el-pagination
         layout="prev, pager, next"
         :total="tableData.length"
@@ -84,7 +95,7 @@ export default {
     };
   },
   props:['tableData','showChoose'],
-
+  
   computed: {
 
   
@@ -125,6 +136,26 @@ export default {
     }
   },
   methods: {
+
+    dataFormat(type,answer){
+      if(type ==="judgement" && answer === "T"||answer==="True"){
+        return "True"
+      }else if(type ==="judgement" && answer === "F"||answer==="False"){
+        return "False"
+      }else {
+        return answer
+      }
+    },
+    dateFormat(row,col){
+      let difficulty = row[col.property]
+      if(difficulty===1){
+        return "简单"
+      }else if (difficulty===2){
+        return "中等"
+      }else{
+        return"困难"
+      }
+    },
      filterHandler(value, row, column) {
         const property = column['property'];
         return row[property] === value;
@@ -135,16 +166,11 @@ export default {
       }
       return "";
     },
-    chooseItem({ id }) {
-      if (!this.$store.state.choosedItems.includes(id)) {
-        this.$store.state.choosedItems.push(id);
-      }
+    chooseItem({ qid }) {
+      this.$store.commit('add',qid)
     },
-    deleteItem({ id }) {
-      let index = this.$store.state.choosedItems.indexOf(id);
-      if (index !== -1) {
-        this.$store.state.choosedItems.splice(index, 1);
-      }
+    deleteItem({ qid }) {
+      this.$store.commit('del',qid)
     },
 
     handleCurrentChange(val) {

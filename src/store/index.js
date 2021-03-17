@@ -8,12 +8,12 @@ export default new Vuex.Store({
     choosedItems:[]
   },
   mutations: {
-    add(state,{id}) {
+    add(state,id) {
       if (!state.choosedItems.includes(id)) {
         state.choosedItems.push(id);
       }
     },
-    delete(state,{id}) {
+    delete(state,id) {
       let index = state.choosedItems.indexOf(id);
       if (index !== -1) {
         state.choosedItems.splice(index, 1);

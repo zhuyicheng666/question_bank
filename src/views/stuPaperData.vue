@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div id="stuPaperData" class="echarts"></div>
+    <div id="stuPaperData" class="echarts" ref="stuPaperData"></div>
   </div>
 </template>
 <script>
@@ -9,18 +9,22 @@ export default {
    
     this.stuResult();
   },
+  Updated(){
+ 
+    this.stuResult();
+  },
   methods: {
   
     stuResult() {
-      var dom = document.getElementById("stuPaperData");
+      var dom = this.$refs.stuPaperData;
       var myChart = this.$echarts.init(dom);
       let option = {
         title: {
-          text: "基础雷达图",
+          text: "题目统计",
         },
         tooltip: {},
         legend: {
-          data: ["预算分配（Allocated Budget）", "实际开销（Actual Spending）"],
+          data: ["题目数量", "正确回答数量"],
         },
         radar: {
           // shape: 'circle',
@@ -28,32 +32,32 @@ export default {
             textStyle: {
               color: "#fff",
               backgroundColor: "#999",
-              borderRadius: 3,
+              borderRadius: 1,
               padding: [3, 5],
             },
           },
           indicator: [
-            { name: "销售（sales）", max: 6500 },
-            { name: "管理（Administration）", max: 16000 },
-            { name: "信息技术（Information Techology）", max: 30000 },
-            { name: "客服（Customer Support）", max: 38000 },
-            { name: "研发（Development）", max: 52000 },
-            { name: "市场（Marketing）", max: 25000 },
+            { name: "加法", max: 50 },
+            { name: "减法", max: 50 },
+            { name: "乘法", max: 50 },
+            { name: "除法", max: 50 },
+            { name: "算法", max: 50 },
+            { name: "语法", max: 50 },
           ],
         },
         series: [
           {
-            name: "预算 vs 开销（Budget vs spending）",
+            name: "个人数据",
             type: "radar",
             // areaStyle: {normal: {}},
             data: [
               {
-                value: [4300, 10000, 28000, 35000, 50000, 19000],
-                name: "预算分配（Allocated Budget）",
+                value: [10, 20, 30, 30, 50, 10],
+                name: "题目数量",
               },
               {
-                value: [5000, 14000, 28000, 31000, 42000, 21000],
-                name: "实际开销（Actual Spending）",
+                value: [10, 18, 28, 10, 42, 10],
+                name: "正确回答数量",
               },
             ],
           },
@@ -66,8 +70,8 @@ export default {
 </script>
 <style lang="stylus" scoped>
 .echarts {
-  width: 800px;
-  height: 800px;
+  width: 500px;
+  height: 500px;
   margin-bottom: 10px;
 }
 </style>

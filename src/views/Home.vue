@@ -83,6 +83,11 @@ export default {
 
     };
   },
+  created(){
+    console.log("123")
+    this.role=window.localStorage.getItem("role")
+    console.log("456")
+  },
   methods: {
    
     //退出

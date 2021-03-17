@@ -1,8 +1,8 @@
 <template>
   <div>
-     <div id="pie" class="echarts"></div>
-    <div id="echarts" class="echarts"></div>
-    <div id="echarts2" class="echarts"></div>
+    <div id="pie" class="echarts" ref="pie"></div>
+    <div id="echarts" class="echarts" ref="echarts"></div>
+    <!-- <div id="echarts2" class="echarts"></div> -->
 
     <el-table :data="tableData" stripe style="width: 100%">
       <el-table-column prop="stuNo" label="学号" width="180"> </el-table-column>
@@ -17,18 +17,12 @@
           <el-button @click="checkWrong(scope.row)" type="text" size="small"
             >查看错题</el-button
           >
-          <el-popover
-            placement="right"
-            width="800"
-            trigger="click">
-            123
-            <stuPaperData/>
-            <el-button slot="reference"  type="text" size="small"
-            >查看数据</el-button
-          >
+          <el-popover placement="right" width="800" trigger="click">
+            <stuPaperData />
+            <el-button slot="reference" type="text" size="small"
+              >查看数据</el-button
+            >
           </el-popover>
-
-          
         </template>
       </el-table-column>
     </el-table>
@@ -36,7 +30,7 @@
 </template>
 
 <script>
-import stuPaperData from './stuPaperData'
+import stuPaperData from "./stuPaperData";
 export default {
   data() {
     return {
@@ -65,48 +59,55 @@ export default {
       ],
     };
   },
-  components:{
-    stuPaperData
+  components: {
+    stuPaperData,
   },
   mounted() {
-    this.pie()
+    this.pie();
     this.paper();
-    this.stuResult();
+    // this.stuResult();
   },
   methods: {
-    checkWrong(){
-      window.open("/stuWrongAnswer","_blank")
+    checkWrong() {
+      window.open("/stuWrongAnswer", "_blank");
     },
-    pie(){
-       var dom = document.getElementById("pie");
+    pie() {
+      var dom = this.$refs.pie;
       var myChart = this.$echarts.init(dom);
       // 绘制图表
       myChart.setOption({
+        title: {
+          text: "题目的分布",
+          left: "center",
+        },
+        tooltip: {
+          trigger: "item",
+        },
         series: [
           {
             name: "访问来源",
             type: "pie",
-            radius: "55%",
+            radius: "50%",
             data: [
               {
                 value: 235,
-                name: "视频广告",
+                name: "一元二次方程",
               },
               {
                 value: 274,
-                name: "联盟广告",
+                name: "10以内的加法",
               },
               {
                 value: 310,
-                name: "邮件营销",
+                name: "50以内的乘法",
               },
               {
                 value: 335,
-                name: "直接访问",
+                name: "方程组",
               },
               {
                 value: 400,
-                name: "搜索引擎",
+                name: "英语",
               },
             ],
           },
@@ -114,58 +115,69 @@ export default {
       });
     },
     paper() {
-      var dom = document.getElementById("echarts");
+      var dom =this.$refs.echarts;
       var myChart = this.$echarts.init(dom);
       let option = {
-        legend: {},
-        tooltip: {},
-        dataset: {
-          source: [
-            ["product", "2015", "2016", "2017"],
-            ["Matcha Latte", 43.3, 85.8, 93.7],
-            ["Milk Tea", 83.1, 73.4, 55.1],
-            ["Cheese Cocoa", 86.4, 65.2, 82.5],
-            ["Walnut Brownie", 72.4, 53.9, 39.1],
-          ],
+        title:{
+          text:"单题正确率统计"
         },
-        xAxis: { type: "category" },
-        yAxis: {},
-        // Declare several bar series, each will be mapped
-        // to a column of dataset.source by default.
-        series: [{ type: "bar" }, { type: "bar" }],
+        xAxis: {
+          type: "category",
+          data: ["第一题", "第二题", "第三题", "第四题", "第五题", "第六题", "第七题"],
+        },
+        yAxis: {
+          type: "value",
+          max: 100
+        },
+        series: [
+          {
+            data: [80, 90, 75, 80, 70, 80, 100],
+            type: "bar",
+            showBackground: true,
+            backgroundStyle: {
+              color: "rgba(180, 180, 180, 0.2)",
+            },
+          },
+        ],
       };
       myChart.setOption(option);
     },
-    stuResult() {
-      var dom = document.getElementById("echarts2");
-      var myChart = this.$echarts.init(dom);
-      let option = {
-        legend: {},
-        tooltip: {},
-        dataset: {
-          source: [
-            ["product", "2015", "2016", "2017"],
-            ["Matcha Latte", 43.3, 85.8, 93.7],
-            ["Milk Tea", 83.1, 73.4, 55.1],
-            ["Cheese Cocoa", 86.4, 65.2, 82.5],
-            ["Walnut Brownie", 72.4, 53.9, 39.1],
-          ],
-        },
-        xAxis: { type: "category" },
-        yAxis: {},
-        // Declare several bar series, each will be mapped
-        // to a column of dataset.source by default.
-        series: [{ type: "bar" }, { type: "bar" }, { type: "bar" }],
-      };
-      myChart.setOption(option);
-    },
+
+    // stuResult() {
+    //   var dom = document.getElementById("echarts2");
+    //   var myChart = this.$echarts.init(dom);
+    //   let option = {
+    //     legend: {},
+    //     tooltip: {},
+    //     dataset: {
+    //       source: [
+    //         ["product", "2015", "2016", "2017"],
+    //         ["Matcha Latte", 43.3, 85.8, 93.7],
+    //         ["Milk Tea", 83.1, 73.4, 55.1],
+    //         ["Cheese Cocoa", 86.4, 65.2, 82.5],
+    //         ["Walnut Brownie", 72.4, 53.9, 39.1],
+    //       ],
+    //     },
+    //     xAxis: { type: "category" },
+    //     yAxis: {},
+    //     // Declare several bar series, each will be mapped
+    //     // to a column of dataset.source by default.
+    //     series: [{ type: "bar" }, { type: "bar" }, { type: "bar" }],
+    //   };
+    //   myChart.setOption(option);
+    // },
   },
 };
 </script>
 <style lang="stylus" scoped>
-.echarts {
-  width: 800px;
-  height: 800px;
+#echarts {
+  width: 600px;
+  height: 600px;
   margin-bottom: 10px;
+}
+
+#pie {
+  width: 500px;
+  height: 500px;
 }
 </style>

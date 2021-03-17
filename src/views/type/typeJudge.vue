@@ -16,35 +16,27 @@ export default {
   data(){
     return {
          tableData: [
-        {id: "111",
-          level: "2级",
-          knowledge: "二元一次方式解法",
-          desc: "1+2等于3",
-           chapter: "加法",
-          frequency: 3,
-         
-          answer:"true",
-          type:"choice"},
-           {id: "111",
-          level: "2级",
-          knowledge: "二元一次方式解法",
-          desc: "1+2等于3",
-           chapter: "加法",
-          frequency: 3,
-         
-          answer:"true",
-          type:"choice"},
-           {id: "111",
-          level: "2级",
-          knowledge: "二元一次方式解法",
-          desc: "1+2等于3",
-           chapter: "加法",
-          frequency: 3,
-         
-          answer:"true",
-          type:"choice"}
+        
       ],
     }
+  },
+  created(){
+      let me =this
+      let queryArr={type:"judgement"}
+      me.$axios.post('http://localhost:3000/loadAll',{data:queryArr}).then(
+
+            function(res){
+              if (res.data.code===200){
+                
+
+                 me.tableData = res.data.data
+                 console.log(me.tableData)
+              }else{
+                 console.log("查询失败") 
+              }
+            }
+           
+          )
   }
 }
 </script>

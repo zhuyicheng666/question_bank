@@ -67,6 +67,7 @@ export default {
         job:"学生入口",
         //表单
         ruleForm: {
+          role:'学生',
           name: '',
           password:''
         },
@@ -84,6 +85,16 @@ export default {
           ]
           
         }
+    }
+  },
+  watch:{
+    job(){
+      if (this.job==="学生入口"){
+        this.ruleForm.role="学生"
+      }else{
+         this.ruleForm.role="教师"
+      }
+      
     }
   },
   methods: {
@@ -106,6 +117,8 @@ export default {
              //  注：由于this问题，需要在函数后面bind
           if(res.data.status===1){
             window.sessionStorage.setItem('token',res.data.token);
+            
+            window.localStorage.setItem('role',res.data.data[0].role)
             this.$router.push('/home')
           }else{
             alert('用户名或密码不正确')

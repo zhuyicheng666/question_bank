@@ -26,6 +26,9 @@
         <el-form-item label="请再次输入密码" prop="secondPassword">
           <el-input v-model="ruleForm.secondPassword" placeholder="请再次输入密码" show-password></el-input>
         </el-form-item>
+        <el-form-item label="教师编号" prop="secondPassword" v-if="ruleForm.role==='学生'">
+          <el-input v-model="ruleForm.tid" placeholder="请输入教师编号" ></el-input>
+        </el-form-item>
 
         <!-- 注册，重置按钮部分 -->
         <el-form-item>
@@ -69,7 +72,8 @@ export default {
         name: "",
         password: "",
         role: "学生",
-        secondPassword: ""
+        secondPassword: "",
+        tid:0
       },
       //规则
       rules: {
@@ -166,7 +170,7 @@ export default {
 
   .login {
     width: 600px;
-    height: 500px;
+    height: 550px;
     background-color: #ffffff;
     position: absolute;
     top: 50%;
