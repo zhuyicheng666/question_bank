@@ -36,10 +36,10 @@
         </el-table-column>
 
         <el-table-column label="编号" prop="qid"></el-table-column>
-        <el-table-column label="难度" prop="difficulty" :formatter="dateFormat" :filters="[{text:'1级',value:'1级'},{text:'2级',value:'2级'}]" :filter-method="filterHandler"></el-table-column>
-        <el-table-column label="章节" prop="chapter"  :filters="[{text:'加法',value:'加法'},{text:'减法',value:'减法'}]" :filter-method="filterHandler"></el-table-column>
-        <el-table-column label="知识点" prop="knowledgePoint"  :filters="[{text:'二元一次方式解法',value:'二元一次方式解法'},{text:'2级',value:'2级'}]" :filter-method="filterHandler"></el-table-column>
-        <el-table-column label="热度"  :filters="[{text:'1',value:'1'},{text:'2',value:'2'}]" :filter-method="filterHandler" >
+        <el-table-column label="难度" prop="difficulty" :formatter="dateFormat" :filters="[{text:'简单',value:1},{text:'中等',value:2},{text:'困难',value:3}]" :filter-method="filterHandler"></el-table-column>
+        <el-table-column label="章节" prop="chapter"  :filters="getChapter" :filter-method="filterHandler"></el-table-column>
+        <el-table-column label="知识点" prop="knowledgePoint"  :filters="getKnowledgePoint" :filter-method="filterHandler"></el-table-column>
+        <el-table-column label="热度"  :filters="[{text:'1星',value:1},{text:'2星',value:2},{text:'3星',value:3},{text:'4星',value:4},{text:'5星',value:5},]" :filter-method="filterHandler" >
            <template v-slot="scope">
               <el-rate
                 v-model="scope.row.citations"
@@ -98,6 +98,33 @@ export default {
   
   computed: {
 
+    getChapter: function() {
+
+      let resultArr=[],result=[],item
+      for (let i =0;i<this.tableData.length;i++){
+        if(resultArr.indexOf(this.tableData[i].chapter)===-1){
+          resultArr.push(this.tableData[i].chapter)
+          item={text:this.tableData[i].chapter,value:this.tableData[i].chapter}
+          result.push(item)
+        }
+      
+      }
+      return result
+    },
+
+     getKnowledgePoint: function() {
+
+      let resultArr=[],result=[],item
+      for (let i =0;i<this.tableData.length;i++){
+        if(resultArr.indexOf(this.tableData[i].knowledgePoint)===-1){
+          resultArr.push(this.tableData[i].knowledgePoint)
+          item={text:this.tableData[i].knowledgePoint,value:this.tableData[i].knowledgePoint}
+          result.push(item)
+        }
+      
+      }
+      return result
+    },
   
     handleTableData: function() {
       let newTableData = [],
@@ -170,7 +197,7 @@ export default {
       this.$store.commit('add',qid)
     },
     deleteItem({ qid }) {
-      this.$store.commit('del',qid)
+      this.$store.commit('delete',qid)
     },
 
     handleCurrentChange(val) {

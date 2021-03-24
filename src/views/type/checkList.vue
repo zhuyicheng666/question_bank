@@ -27,80 +27,10 @@ export default {
   data() {
     return {
       currentPage: 0,
-     role:"teacher",
+     role:"student",
       
       pageSize:2,
        tableData: [
-        {
-          id: "12987122",
-          level: "1级",
-          knowledge: "这是选择题",
-          desc: "1+1等于2",
-          chapter: "加法",
-          frequency: 3,
-          option1:"A:optionA",
-          option2:"B:optionB",
-          option3:"C:optionC",
-          option4:"D:optionD",
-          answer:"A",
-           type:"choice"
-        },
-        {
-          id: "122",
-          level: "3级",
-          knowledge: "二元一次方式解法",
-          desc: "5+1等于5",
-           chapter: "加法",
-          frequency: 3,
-          option1:"A:optionA",
-          option2:"B:optionB",
-          option3:"C:optionC",
-          option4:"D:optionD",
-          answer:"A",
-           type:"choice"
-        },
-        {
-          id: "129",
-          level: "1级",
-          knowledge: "二元一次方式解法",
-          desc:
-            "1525+2=15151525+2=15151525+2=15151525+2=15151525+2=15151525+2=15151525+2=15151525+2=15151525+2=15151525+2=15151525+2=15151525+2=1515",
-             chapter: "加法",
-          frequency: 3,
-          option1:"A:optionA",
-          option2:"B:optionB",
-          option3:"C:optionC",
-          option4:"D:optionD",
-          answer:"A",
-           type:"choice"
-        },
-        {id: "111",
-          level: "2级",
-          knowledge: "二元一次方式解法",
-          desc: "1+2等于3",
-           chapter: "加法",
-          frequency: 3,
-         
-          answer:"true",
-          type:"choice"},
-           {id: "111",
-          level: "2级",
-          knowledge: "二元一次方式解法",
-          desc: "1+2等于3",
-           chapter: "加法",
-          frequency: 3,
-         
-          answer:"true",
-          type:"choice"},
-           {id: "111",
-          level: "2级",
-          knowledge: "二元一次方式解法",
-          desc: "1+2等于3",
-           chapter: "加法",
-          frequency: 3,
-         
-          answer:"true",
-          type:"choice"}
       ],
       
     };
@@ -121,12 +51,12 @@ export default {
 
         if (cur+this.pageSize<=this.$store.getters.getChoosedItemsNumber){
         
-        newTableData.push(this.$store.state.choosedItems.slice(cur, cur+this.pageSize));
+        newTableData.push(this.$store.getters.getChoosedItemsQuesiton.slice(cur, cur+this.pageSize));
         
         }
         else{
           
-            newTableData.push(this.$store.state.choosedItems.slice(cur, this.$store.getters.getChoosedItemsNumber));
+            newTableData.push(this.$store.getters.getChoosedItemsQuesiton.slice(cur, this.$store.getters.getChoosedItemsNumber));
         }
         cur = cur + this.pageSize;
       }
@@ -172,7 +102,29 @@ export default {
       this.$router.push('/generate')
     }
     
+  },
+  created(){
+      let me =this
+      
+      let queryArr=this.$store.getters.getChoosedItems
+      me.$axios.post('http://localhost:3000/loadAllById',{data:queryArr}).then(
+
+            function(res){
+              if (res.data.code===200){
+                
+                 me.$store.commit('loadQuestion', res.data.data)
+               
+                
+                 me.tableData = me.$store.getters.getChoosedItemsQuestion
+                 console.log(me.tableData)
+              }else{
+                 console.log("查询失败") 
+              }
+            }
+           
+          )
   }
+
 };
 </script>
 

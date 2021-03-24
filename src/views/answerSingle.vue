@@ -4,34 +4,34 @@
        <el-card v-if="singleData[no].type === 'choice'">
       <el-row>
         <el-col :span="20"
-          ><div>{{ singleData[no].data.desc }}</div></el-col
+          ><div>{{ singleData[no].question }}</div></el-col
         >
       </el-row>
       <el-row>
         <el-col>
-          <el-radio v-model="singleData[no].data.stuAnswer" label="A"
-            >A、{{ singleData[no].data.option1 }}</el-radio
+          <el-radio v-model="singleData[no].stuAnswer" label="A"
+            >A、{{ singleData[no].optionA }}</el-radio
           >
         </el-col>
       </el-row>
       <el-row>
         <el-col>
-          <el-radio v-model="singleData[no].data.stuAnswer" label="B"
-            >B、{{ singleData[no].data.option2 }}</el-radio
+          <el-radio v-model="singleData[no].stuAnswer" label="B"
+            >B、{{ singleData[no].optionB }}</el-radio
           >
         </el-col>
       </el-row>
       <el-row>
         <el-col>
-          <el-radio v-model="singleData[no].data.stuAnswer" label="C"
-            >C、{{ singleData[no].data.option3 }}</el-radio
+          <el-radio v-model="singleData[no].stuAnswer" label="C"
+            >C、{{ singleData[no].optionC }}</el-radio
           >
         </el-col>
       </el-row>
       <el-row>
         <el-col>
-          <el-radio v-model="singleData[no].data.stuAnswer" label="D"
-            >D、{{ singleData[no].data.option4 }}</el-radio
+          <el-radio v-model="singleData[no].stuAnswer" label="D"
+            >D、{{ singleData[no].optionD }}</el-radio
           >
         </el-col>
       </el-row>
@@ -39,20 +39,20 @@
     <el-card v-else>
       <el-row class="marginBottom">
         <el-col>
-          <div>{{ singleData[no].data.desc }}</div>
+          <div>{{ singleData[no].question }}</div>
         </el-col>
       </el-row>
       <el-row>
         <el-col>
-          <el-radio v-model="singleData[no].data.stuAnswer" label="T">{{
-            singleData[no].data.option1
+          <el-radio v-model="singleData[no].stuAnswer" label="T">{{
+            singleData[no].optionA
           }}</el-radio>
         </el-col>
       </el-row>
       <el-row>
         <el-col>
-          <el-radio v-model="singleData[no].data.stuAnswer" label="F">{{
-            singleData[no].data.option2
+          <el-radio v-model="singleData[no].stuAnswer" label="F">{{
+            singleData[no].optionB
           }}</el-radio>
         </el-col>
       </el-row>
@@ -90,39 +90,14 @@ export default {
       right:false,
       wrong:false,
       no:0,
-      singleData: [{
-        type: "choice",
-        data: {
-          id: "12987122",
-          level: "1级",
-          knowledge: "这是选择题",
-          desc: "1+1等于2( )",
-          chapter: "加法",
-          frequency: 3,
-          option1: "A:optionA",
-          option2: "B:optionB",
-          option3: "C:optionC",
-          option4: "D:optionD",
-          answer: "A",
-          type: "choice",
-        }},{
-        type:"judgement",
-        data:{
-          id: "12987122",
-          level: "1级",
-          knowledge: "这是选择题",
-          desc: "1+1等于2( )",
-          chapter: "加法",
-          frequency: 3,
-          option1:"A:true",
-          option2:"B:false",
-          answer:"A",
-          type:"judge"
-          
-        }
-      },]
+     
     };
   },
+  computed:{
+     singleData: function(){
+       return this.$store.getters.getChoosedItemsQuestion
+     }
+  }
 };
 </script>
 <style  lang="stylus" scoped></style>

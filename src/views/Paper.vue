@@ -5,7 +5,7 @@
     border
     >
     <el-table-column
-      prop="id"
+      prop="pid"
       label="编号"
       width="120">
     </el-table-column>
@@ -49,33 +49,46 @@ export default {
       this.$router.push('/stuResult')
     },
     checkAnswer(row){
-       console.log(row)
-      this.$router.push('/answerPaper')
+      let me =this
+      let queryArr={"pid":row.pid}
+      me.$axios.post('http://localhost:3000/loadPaper',{data:queryArr}).then(
+
+            function(res){
+              if (res.data.code===200){
+              
+                // me.$router.push('/answerPaper')
+                console.log(res.data.data)
+                 me.$router.push({ name: 'answerPaper', params: res.data.data})
+                
+              }else{
+                 console.log("查询失败") 
+              }
+            }
+           
+          )
+     
     }
+  },
+  created(){
+      let me =this,tid=20210321
+      let queryArr={"tid":tid}
+      me.$axios.post('http://localhost:3000/loadAllPaper',{data:queryArr}).then(
+
+            function(res){
+              if (res.data.code===200){
+              
+                me.tableData=res.data.data
+                
+              }else{
+                 console.log("查询失败") 
+              }
+            }
+           
+          )
   },
   data(){
     return {
-         tableData: [{
-          id:'123456',
-          date: '2016-05-02',
-          name: '王小虎',
-          title: '2021年数学考试期末试卷'
-        }, {
-          id:'123456',
-          date: '2016-05-02',
-          name: '王小虎',
-          title: '2021年数学考试期末试卷'
-        }, {
-          id:'123456',
-          date: '2016-05-02',
-          name: '王小虎',
-          title: '2021年数学考试期末试卷'
-        }, {
-          id:'123456',
-          date: '2016-05-02',
-          name: '王小虎',
-          title: '2021年数学考试期末试卷'
-        }]
+         tableData: []
     }
   }
 }

@@ -164,6 +164,27 @@ export default {
   },
   methods: {
     choose() {
+
+   let me =this
+      
+      let queryArr=this.$store.getters.getChoosedItems
+      me.$axios.post('http://localhost:3000/loadAllById',{data:queryArr}).then(
+
+            function(res){
+              if (res.data.code===200){
+                
+                 me.$store.commit('loadQuestion', res.data.data)
+               
+                
+              }else{
+                 console.log("查询失败") 
+              }
+            }
+           
+          )
+
+
+
       this.$router.push('/answerSingle');
     },
     random() {

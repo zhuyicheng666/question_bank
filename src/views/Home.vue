@@ -6,13 +6,13 @@
         <el-row>
           <el-col :span="12" :offset="6" >
             <!-- 导航条部分 -->
-            <div>
+            <div >
               <el-menu
-                :default-active="activeIndex"
+                 :default-active="$route.path"
                 class="el-menu-demo"
                 mode="horizontal"
                 text-color="#409EFF"
-               
+                 
                 :router="true"
                
                 
@@ -43,7 +43,7 @@
                       <el-menu-item index="/exercise" >练单题</el-menu-item>
                       
                     </el-submenu>
-                    <el-menu-item index="/history" v-if="this.role==='student'">历史记录</el-menu-item>
+                  <el-menu-item index="/history" v-if="this.role==='student'">历史记录</el-menu-item>
                   <el-menu-item index="/paper" v-if="this.role==='teacher'">试卷管理</el-menu-item>
                     <!-- <el-menu-item index="/community">
                       社区中心
@@ -79,13 +79,13 @@ export default {
   data() {
     return {
       activeIndex: "/data",
-      role: "teacher"
+      role: "student"
 
     };
   },
   created(){
     console.log("123")
-    this.role=window.localStorage.getItem("role")
+    // this.role=window.localStorage.getItem("role")
     console.log("456")
   },
   methods: {
