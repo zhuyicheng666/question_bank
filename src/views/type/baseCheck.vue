@@ -2,7 +2,7 @@
 <template>
   <div>
   
-    <Base ref="base"  :showChoose="true" :tableData="tableData"/>
+    <Base ref="base" :tableData="tableData"/>
       <!-- 已选题目的小图标按钮 -->
     <div class="checkList" @click="handleCheckListClick">
       <el-badge :value="this.$store.getters.getChoosedItemsNumber" class="item">

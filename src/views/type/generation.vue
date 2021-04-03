@@ -1,9 +1,12 @@
 <template>
    <div>
       <div class="setting">
-        <span>试卷标题</span>
-        <input type="text" v-model="title">
-        <br/>
+        <!-- <span>试卷标题</span>
+        <input type="text" v-model="title"> -->
+        <!-- <br/>
+        <span>答题时间</span>
+        <input type="text" v-model="time">
+        <br/> -->
         <!-- <span>填空分值</span>
         <input type="text" v-model="fillValue" >
         <span>填空间距</span>
@@ -33,7 +36,9 @@
       </div>
 
     <el-card class="box-card" id="pdfDom">
-      <h1 class="title">{{title}}</h1>
+      <h1 class="title " :class="showUnderLine?'info':'afterInfo'">
+        <!-- <h1 class="title afterInfo"> -->
+        <input type="text" v-model="title"></h1>
 
       <div class="info">
         <span>班级</span>
@@ -93,15 +98,28 @@
       <div v-for="(item,index) in tableData" :key="index" class="line marginBottom">
         <el-row class="marginBottom">
            <el-col :span="1" :offset="1">{{index+1}}</el-col>
-           <el-col :span="20"><div>{{addBrackets(item.question)}}</div></el-col>
+           <el-col :span="20"><div v-html="item.question"></div></el-col>
         </el-row>
-        <el-row class="marginBottom">
+        
           
-          <el-col :span="5" :offset="2">{{item.optionA}}</el-col>
-          <el-col :span="5">{{item.optionB}}</el-col>
-          <el-col :span="5">{{item.optionC}}</el-col>
-          <el-col :span="5">{{item.optionD}}</el-col>
-        </el-row>
+          <el-row class="marginBottom option" type="flex" align="middle" >
+            <el-col :span="0.5" :offset="2" > A.&nbsp;   </el-col>
+             <el-col :span="20"  ><div v-html="item.optionA" ></div></el-col>
+          </el-row>
+          <el-row class="marginBottom option"  type="flex" align="middle">
+            <el-col :span="0.5" :offset="2" > B. &nbsp;   </el-col>
+             <el-col :span="20" ><div v-html="item.optionB" ></div></el-col>
+          </el-row>
+          <el-row class="marginBottom option"  type="flex" align="middle">
+            <el-col :span="0.5" :offset="2" > C.&nbsp;   </el-col>
+             <el-col :span="20" ><div v-html="item.optionC" ></div></el-col>
+          </el-row>
+          <el-row class="marginBottom option"  type="flex" align="middle">
+            <el-col :span="0.5" :offset="2" > D. &nbsp;   </el-col>
+             <el-col :span="20" ><div v-html="item.optionD" ></div></el-col>
+          </el-row>
+         
+        
         
       </div>
      
@@ -134,8 +152,16 @@
       <div v-for="(item,index) in judgeTableData" :key="index" class="line marginBottom">
         <el-row class="marginBottom">
            <el-col :span="1" :offset="1">{{index+1}}</el-col>
-           <el-col :span="20"><div>{{addBrackets(item.question)}}</div></el-col>
+           <el-col :span="20"><div v-html="item.question"></div></el-col>
         </el-row>
+          <el-row class="marginBottom option" type="flex" align="middle" >
+            <el-col :span="0.5" :offset="2" > A.&nbsp;   </el-col>
+             <el-col :span="20"  ><div v-html="item.optionA" ></div></el-col>
+          </el-row>
+          <el-row class="marginBottom option"  type="flex" align="middle">
+            <el-col :span="0.5" :offset="2" > B. &nbsp;   </el-col>
+             <el-col :span="20" ><div v-html="item.optionB" ></div></el-col>
+          </el-row>
       </div>
       </div>
       <!-- <div class="Calculate">
@@ -166,7 +192,7 @@
   
      <el-button type="primary" round icon="el-icon-arrow-left" class="back" @click="handleBack">返回</el-button>
       <el-button type="primary" round class="generate" @click="handleGenerate">生成pdf <i class="el-icon-arrow-right el-icon--right" ></i></el-button>
-      <el-button type="primary" round class="generateWord" @click="handleGenerateWord">生成word <i class="el-icon-arrow-right el-icon--right" ></i></el-button>
+      <!-- <el-button type="primary" round class="generateWord" @click="handleGenerateWord">生成word <i class="el-icon-arrow-right el-icon--right" ></i></el-button> -->
       <el-button type="primary" round class="generateonline" @click="handleGenerateOnline">生成在线答题版本 <i class="el-icon-arrow-right el-icon--right" ></i></el-button>
    </div>
 
@@ -177,6 +203,7 @@ import rendoc from '../../utils/generateWord'
 export default {
   data(){
     return{
+      showUnderLine:true,
       htmlTitle:"zhuyicheng",
       title:"",
       fillValue:"",
@@ -185,6 +212,7 @@ export default {
         choice:true,
         judgement:true,
         title:"这里是标题",
+        time:0,
         choiceQuestion:[{
           question:"这里是题目",
           optionA:"选项A",
@@ -336,13 +364,16 @@ export default {
       rendoc(this.wordData)
     },
     handleGenerateOnline(){
+      this.showUnderLine=false
       this.$store.commit('setTitle',this.title)
+      this.$store.commit('setTime',this.time)
       this.$router.push('/onlinePreview')
     },
       handleBack(){
       this.$router.go(-1)
     },
     handleGenerate(){
+      this.showUnderLine=false
       this.getPdf('#pdfDom')
     },
     addBrackets(text){
@@ -368,7 +399,16 @@ export default {
     margin 5px
     outline none
     border 0px
-    border-bottom: 1px solid #909399;
+    border-bottom: 1px solid #909399; 
+    text-align:center;
+
+
+  .afterInfo input
+    margin 5px
+    outline none
+    border 0px
+    text-align:center
+  
   .setting span, .info span 
     color:#606266
   .setting 
@@ -427,5 +467,9 @@ export default {
     }
     .marginBottom{
       margin-bottom: 15px
+    }
+    .option> div:first-child{
+      margin-right:20px
+
     }
 </style>

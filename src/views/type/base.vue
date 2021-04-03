@@ -2,11 +2,11 @@
   <div class="table">
     <el-card shadow="always" class="tableCard">
       
- <el-table :data="pageTableData" style="width: 100%" :row-class-name="tableRowClassName">
+ <el-table :data="pageTableData" style="width: 100%" :row-class-name="tableRowClassName" highlight-current-row:false>
         <el-table-column type="expand">
           <template slot-scope="props">
-            <el-form label-position="left"  class="demo-table-expand">
-              <el-form-item label="完整题目描述">
+            <el-form label-position="left"  class="demo-table-expand" >
+              <!-- <el-form-item label="完整题目描述">
                 <span>{{ props.row.question }}</span>
               </el-form-item>
               <el-form-item v-if="props.row.type === 'choice'">
@@ -22,21 +22,34 @@
                   <li> {{props.row.optionA}}</li>
                   <li> {{props.row.optionB}}</li>
                 </ul>
-              </el-form-item>
+              </el-form-item> -->
               <el-form-item label="查看答案">
-                <el-checkbox v-model="showAnswer"></el-checkbox>
+                <el-checkbox v-model="showAnswer[props.$index]"></el-checkbox>
               </el-form-item>
-              <el-form-item label="答案:" v-if="showAnswer">
+              <el-form-item label="答案:" v-if="showAnswer[props.$index]">
 
                 <!-- <span>{{props.row.answer}}</span> -->
                  <span>{{dataFormat(props.row.type,props.row.answer)}}</span>
               </el-form-item>
+
+
+            <el-form-item label="查看解析">
+                <el-checkbox v-model="showProcess[props.$index]"></el-checkbox>
+                </el-form-item>
+              <el-form-item label="解析:" v-if="showProcess[props.$index]">
+
+                <!-- <span>{{props.row.answer}}</span> -->
+                 <span v-html="props.row.text"></span>
+              </el-form-item>
+
+
+
             </el-form>
           </template>
         </el-table-column>
 
-        <el-table-column label="编号" prop="qid"></el-table-column>
-        <el-table-column label="难度" prop="difficulty" :formatter="dateFormat" :filters="[{text:'简单',value:1},{text:'中等',value:2},{text:'困难',value:3}]" :filter-method="filterHandler"></el-table-column>
+        <el-table-column label="编号" prop="qid" width=60></el-table-column>
+   <!--      <el-table-column label="难度" prop="difficulty" :formatter="dateFormat" :filters="[{text:'简单',value:1},{text:'中等',value:2},{text:'困难',value:3}]" :filter-method="filterHandler"></el-table-column>
         <el-table-column label="章节" prop="chapter"  :filters="getChapter" :filter-method="filterHandler"></el-table-column>
         <el-table-column label="知识点" prop="knowledgePoint"  :filters="getKnowledgePoint" :filter-method="filterHandler"></el-table-column>
         <el-table-column label="热度"  :filters="[{text:'1星',value:1},{text:'2星',value:2},{text:'3星',value:3},{text:'4星',value:4},{text:'5星',value:5},]" :filter-method="filterHandler" >
@@ -51,16 +64,77 @@
            </template>
          
 
-        </el-table-column>
-        <el-table-column label="题目描述">
-          <template v-slot="scope">{{scope.row.question|ellipsis}}</template>
+        </el-table-column> -->
+        <el-table-column label="题目描述" >
+          <template v-slot="scope" >
+            <div v-html="scope.row.question" class="question"></div>
+            
+            <div>
+              <div v-if="scope.row.type === 'choice'">
+                   <el-row type="flex" align="middle">
+                    <el-col :span='1'>
+                        <el-radio>A.</el-radio>
+                    </el-col>
+                    <el-col :span='23'>
+                      <span v-html="scope.row.optionA" class="option"></span>
+                    </el-col>
+                  </el-row>
+                  <el-row type="flex" align="middle">
+                    <el-col :span='1'>
+                        <el-radio>B.</el-radio>
+                    </el-col>
+                    <el-col :span='23'>
+                      <span v-html="scope.row.optionB" class="option"></span>
+                    </el-col>
+                  </el-row>
+                   <el-row type="flex" align="middle">
+                    <el-col :span='1'>
+                        <el-radio>C.</el-radio>
+                    </el-col>
+                    <el-col :span='23'>
+                      <span v-html="scope.row.optionC" class="option"></span>
+                    </el-col>
+                  </el-row>
+                   <el-row type="flex" align="middle">
+                    <el-col :span='1'>
+                        <el-radio>D.</el-radio>
+                    </el-col>
+                    <el-col :span='23'>
+                      <span v-html="scope.row.optionD" class="option"></span>
+                    </el-col>
+                  </el-row>
+                  
+                  
+               
+              </div>
+              <div v-if="scope.row.type === 'judgement'">
+                <el-row type="flex" align="middle">
+                    <el-col :span='1'>
+                        <el-radio>A.</el-radio>
+                    </el-col>
+                    <el-col :span='23'>
+                      <span v-html="scope.row.optionA" class="option"></span>
+                    </el-col>
+                  </el-row>
+                  <el-row type="flex" align="middle">
+                    <el-col :span='1'>
+                        <el-radio>B.</el-radio>
+                    </el-col>
+                    <el-col :span='23'>
+                      <span v-html="scope.row.optionB" class="option"></span>
+                    </el-col>
+                  </el-row>
+              </div>
+            </div>
+           
+          </template>
         </el-table-column>
 
-        <el-table-column label="操作(加入/取消)" width="200px">
+        <el-table-column label="操作(加入自选)" width="200px">
           <template v-slot="scope">
-            <el-button v-show="showChoose" type="success" icon="el-icon-check" circle @click="chooseItem(scope.row)"></el-button>
+            <el-button v-show="!showDelete &&!scope.row.show" type="success" icon="el-icon-check" circle @click="chooseItem(scope.row)"></el-button>
 
-            <el-button type="danger" icon="el-icon-delete" circle @click="deleteItem(scope.row)"></el-button>
+            <el-button  v-show="showDelete" type="danger" icon="el-icon-delete" circle @click="deleteItem(scope.row)"></el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -87,16 +161,18 @@ export default {
   data() {
     return {
       currentPage: 0,
-     showAnswer:false,
-      
+     showAnswer:[],
+      showProcess:[],
       pageSize:5,
       
       
     };
   },
-  props:['tableData','showChoose'],
+  props:['tableData','showChoose','showDelete'],
   
   computed: {
+
+    
 
     getChapter: function() {
 
@@ -188,12 +264,16 @@ export default {
         return row[property] === value;
       },
     tableRowClassName({ row }) {
-      if (this.$store.state.choosedItems.includes(row.id)) {
+      
+      if (this.$store.getters.getChoosedItems.includes(row.qid)) {
         return "success-row";
       }
       return "";
     },
-    chooseItem({ qid }) {
+    chooseItem(row) {
+      let qid = row.qid
+      
+      this.$set( row, 'show', true )
       this.$store.commit('add',qid)
     },
     deleteItem({ qid }) {
@@ -228,11 +308,12 @@ export default {
   background: #f0f9eb;
 }
 
+
 .tableCard {
   width: 98%;
   margin-left: auto;
   margin-right: auto;
-  height: 90%;
+  // height: 90%;
   position: absolute;
 }
 .tableCard ul {
@@ -241,6 +322,9 @@ export default {
 .el-pagination{
   text-align center
 }
-
+.question{
+  font-size 20px
+  font-weight 500
+}
 
 </style>

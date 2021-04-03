@@ -21,7 +21,8 @@
     "vue": "^2.6.11",
     "vue-axios": "^2.1.5",
     "vue-router": "^3.0.7",
-    "vuex": "^3.4.0"
+    "vuex": "^3.4.0",
+    "wangeditor": "^4.6.12"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.4.0",

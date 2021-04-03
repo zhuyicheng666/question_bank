@@ -1,13 +1,13 @@
 <template>
   <div class="table">
-    <el-card shadow="always" class="tableCard">
+    <!-- <el-card shadow="always"  class="tableCard"> -->
       <h2 class="title">已选题目</h2>
 
-     <Base ref="base" :showChoose="false" :tableData="tableData"/>
+     <Base ref="base"  :showDelete="true"  :tableData="tableData"/>
 
       <el-button type="primary" round icon="el-icon-arrow-left" class="back" @click="handleBack">返回</el-button>
       <el-button type="primary" round class="next" @click="handleNext" v-if="this.role==='teacher'">下一步 <i class="el-icon-arrow-right el-icon--right"  ></i></el-button>
-    </el-card>
+    <!-- </el-card> -->
   
 
 
@@ -27,7 +27,7 @@ export default {
   data() {
     return {
       currentPage: 0,
-     role:"student",
+      role:"student",
       
       pageSize:2,
        tableData: [
@@ -107,7 +107,8 @@ export default {
       let me =this
       
       let queryArr=this.$store.getters.getChoosedItems
-      me.$axios.post('http://localhost:3000/loadAllById',{data:queryArr}).then(
+      if(queryArr.length!==0){
+         me.$axios.post('http://localhost:3000/loadAllById',{data:queryArr}).then(
 
             function(res){
               if (res.data.code===200){
@@ -123,6 +124,8 @@ export default {
             }
            
           )
+      }
+     
   }
 
 };
@@ -155,7 +158,7 @@ export default {
   width: 98%;
   margin-left: auto;
   margin-right: auto;
-  height: 90%;
+  height: 100%;
   position: absolute;
 }
 .el-pagination{

@@ -11,9 +11,46 @@
       <div v-for="(item,index) in choiceData" :key="index" class="line marginBottom">
         <el-row class="marginBottom">
            <el-col :span="1" :offset="1">{{index+1}}</el-col>
-           <el-col :span="20"><div>{{item.quetion}}</div></el-col>
+           <el-col :span="20"><div v-html='item.question'></div></el-col>
         </el-row>
-          <el-row >
+
+        <el-row  type="flex" align="middle">
+            <el-col :offset="2" :span="0.5">
+               <el-radio class="option" v-model="item.answer" :disabled="disabled(item.answer,'A')"  label="A">A. </el-radio>
+            </el-col>
+             <!-- <el-col :span="0.5"  class="option"> A.&nbsp;   </el-col> -->
+             <el-col :span="20"  ><div v-html="item.optionA" ></div></el-col>
+            </el-row>
+          <el-row  type="flex" align="middle">
+            <el-col :offset="2" :span="0.5">
+              <el-radio  class="option" v-model="item.answer" :disabled="disabled(item.answer,'B')" label="B">B. </el-radio>
+            </el-col>
+            <!-- <el-col :span="0.5" class="option" > B. &nbsp;   </el-col> -->
+             <el-col :span="20"  ><div v-html="item.optionB" ></div></el-col>
+            </el-row>
+          <el-row  type="flex" align="middle">
+            <el-col :offset="2" :span="0.5">
+              <el-radio  class="option" v-model="item.answer" :disabled="disabled(item.answer,'C')" label="C">C.</el-radio>
+            </el-col>
+            <!-- <el-col :span="0.5"  class="option"> C.&nbsp;   </el-col> -->
+             <el-col :span="20"  ><div v-html="item.optionC" ></div></el-col>
+            </el-row>
+         <el-row  type="flex" align="middle">
+            <el-col :offset="2" :span="0.5">
+              <el-radio class="option" v-model="item.answer" :disabled="disabled(item.answer,'D')" label="D">D.</el-radio>
+            </el-col>
+            <!-- <el-col :span="0.5" class="option" > D.&nbsp;   </el-col> -->
+             <el-col :span="20"  ><div v-html="item.optionD" ></div></el-col>
+            </el-row>
+
+
+
+
+
+
+
+
+          <!-- <el-row >
             <el-col :offset="2">
                <el-radio v-model="item.answer" :disabled="disabled(item.answer,'A')" label="A">A、{{item.optionA}}</el-radio>
             </el-col>
@@ -33,7 +70,7 @@
             <el-col :offset="2">
               <el-radio v-model="item.answer" :disabled="disabled(item.answer,'D')" label="D">D、{{item.optionD}}</el-radio>
             </el-col>
-            </el-row>
+            </el-row> -->
       </div>
       </div>
 
@@ -46,7 +83,7 @@
       <div v-for="(item,index) in judgementData" :key="index" class="line marginBottom">
         <el-row class="marginBottom">
            <el-col :span="1" :offset="1">{{index+1}}</el-col>
-           <el-col :span="20"><div>{{item.desc}}</div></el-col>
+          <el-col :span="20"><div v-html='item.question'></div></el-col>
         </el-row>
           <el-row >
             <el-col :offset="2">
@@ -167,5 +204,8 @@ export default {
   .submit{
     display: block;
     margin:0 auto;
+  }
+  #pdfDom>>>.el-radio:last-child{
+    margin-right 10px
   }
 </style>

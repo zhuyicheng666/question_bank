@@ -6,9 +6,9 @@
         <el-button round @click="random()">随机题目</el-button>
       </div>
       <div v-else>
-        <el-row type="flex" justify="center">
+        <el-row type="flex"  align="middle" justify="center">
           <el-col :span="5"> <span>难度 </span></el-col>
-          <el-select v-model="valueList.level" placeholder="请选择">
+          <el-select v-model="valueList.difficulty" placeholder="请选择">
             <el-option
               v-for="item in optionList.levelOption"
               :key="item.value"
@@ -18,7 +18,7 @@
             </el-option>
           </el-select>
         </el-row>
-        <el-row type="flex" justify="center">
+        <el-row type="flex"   align="middle" justify="center">
           <el-col :span="5"><span>章节 </span></el-col>
           <el-select v-model="valueList.chapter" placeholder="请选择">
             <el-option
@@ -31,32 +31,8 @@
           </el-select>
         </el-row>
 
-        <el-row type="flex" justify="center">
-          <el-col :span="5"><span>知识点 </span></el-col>
-          <el-select v-model="valueList.knowledge" placeholder="请选择">
-            <el-option
-              v-for="item in optionList.knowledgeOption"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            >
-            </el-option>
-          </el-select>
-        </el-row>
-
-        <el-row type="flex" justify="center">
-          <el-col :span="5"> <span>热度 </span></el-col>
-          <el-select v-model="valueList.frequency" placeholder="请选择">
-            <el-option
-              v-for="item in optionList.frequencyOption"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            >
-            </el-option>
-          </el-select>
-        </el-row>
-        <el-row type="flex" justify="center">
+      
+        <el-row type="flex"   align="middle" justify="center">
           <el-col :span="5"> <span>题型 </span></el-col>
           <el-select v-model="valueList.type" placeholder="请选择">
             <el-option
@@ -68,6 +44,21 @@
             </el-option>
           </el-select>
         </el-row>
+
+     
+
+           
+        <el-row type="flex"  align="middle" justify="center" >
+          <el-col :span="5"> <span>题量 &nbsp; </span></el-col>
+          
+             <el-input v-model="valueList.num" class="num" placeholder="请输入数量">
+           
+          </el-input>
+          
+          
+       
+        </el-row>
+
 
         <el-row type="flex" justify="center" class="confirm">
           <el-button type="primary" round @click="confirm">确认</el-button>
@@ -82,80 +73,51 @@ export default {
     return {
       show: true,
       valueList: {
-        level: "",
-        knowledge: "",
+        difficulty: 0,
+      
         chapter: "",
-        frequency: "",
+      
         type: "",
+        num:1
       },
       optionList: {
         levelOption: [
           {
-            value:"",
-            label:""
+            value:0,
+            label:"无要求"
           },
           {
-            value: "1级",
-            label: "1级",
+            value: 1,
+            label: "简单",
           },
           {
-            value: "2级",
-            label: "2级",
+            value: 2,
+            label: "中等",
+          },
+          {
+            value: 3,
+            label: "困难",
           },
         ],
-        knowledgeOption: [
-          {
-            value:"",
-            label:""
-          },
-          {
-            value: "这是选择题",
-            label: "这是选择题",
-          },
-          {
-            value: "二元方程",
-            label: "二元方程",
-          },
-        ],
+       
         chapterOption: [
           {
             value:"",
-            label:""
-          },
-          {
-            value: "加法",
-            label: "加法",
-          },
-          {
-            value: "减法",
-            label: "减法",
-          },
+            label:"无要求"
+          }
         ],
-        frequencyOption: [
-          {
-            value:"",
-            label:""
-          },
-          {
-            value: "1",
-            label: "1",
-          },
-          {
-            value: "2",
-            label: "2",
-          },
-        ],
+       
         typeOption: [
           {
             value:"",
-            label:""
+            label:"无要求"
           },
           {
-            value: "选择",
+            value: "choice",
             label: "选择",
           },
           {
-            value: "判断",
+            value: "judgement",
             label: "判断",
           },
         ],
@@ -189,11 +151,75 @@ export default {
     },
     random() {
       this.show = false;
+
+
+
+
+
     },
     confirm(){
-      this.$router.push('/answerSingle');
+
+let me =this,queryArr=this.valueList
+
+    
+      me.$axios.post('http://localhost:3000/random',{data:queryArr}).then(
+
+            function(res){
+              if (res.data.code===200){
+                
+               me.$store.commit('loadQuestion', res.data.data)
+               me.$router.push('/answerSingle');
+                
+              }else if(res.data.code === 201){
+                 me.$store.commit('loadQuestion', res.data.data)
+               
+                me.$message({
+                    message: res.data.message,
+                    type: 'warn'
+                  });
+                  
+                me.$router.push('/answerSingle');
+              }
+              else{
+                 me.$message({
+                    message: res.data.message,
+                    type: 'warn'
+                  });
+              }
+            }
+           
+          )
+    
+
+     
     }
   },
+
+  created(){
+    let me =this
+       me.$axios.post('http://localhost:3000/getChapter').then(
+
+
+            function(res){
+              if (res.data.code===200){
+                 res.data.data.forEach(item=>{
+                    me. optionList.chapterOption.push({
+                      value:item.chapter,
+                      label:item.chapter
+                    })
+                 })
+
+
+              }else{
+                   me.$message({
+                    message: '获取失败',
+                    type: 'warn'
+                  });
+              }
+            }
+           
+          )
+  }
 };
 </script>
 <style lang="stylus" scoped>
@@ -216,5 +242,8 @@ export default {
 
 .confirm {
   margin-top: 20px;
+}
+.num{
+  margin 10px
 }
 </style>

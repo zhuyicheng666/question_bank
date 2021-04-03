@@ -12,28 +12,35 @@
       <div v-for="(item,index) in choiceData" :key="index" class="line marginBottom">
         <el-row class="marginBottom">
            <el-col :span="1" :offset="1">{{index+1}}</el-col>
-           <el-col :span="20"><div>{{item.question}}</div></el-col>
+           <el-col :span="20"><div v-html='item.question'></div></el-col>
         </el-row>
-          <el-row >
-            <el-col :offset="2">
-               <el-radio v-model="item.stuAnswer"  label="A">A、{{item.optionA}}</el-radio>
+          <el-row  type="flex" align="middle">
+            <el-col :offset="2" :span="0.5">
+               <el-radio v-model="item.stuAnswer"  label="A">A.</el-radio>
             </el-col>
-            
+             <!-- <el-col :span="0.5"  class="option"> A.&nbsp;   </el-col> -->
+             <el-col :span="20"  ><div v-html="item.optionA" ></div></el-col>
             </el-row>
-          <el-row >
-            <el-col :offset="2">
-              <el-radio v-model="item.stuAnswer" label="B">B、{{item.optionB}}</el-radio>
+          <el-row  type="flex" align="middle">
+            <el-col :offset="2" :span="0.5">
+              <el-radio v-model="item.stuAnswer" label="B">B.</el-radio>
             </el-col>
+            <!-- <el-col :span="0.5" class="option" > B. &nbsp;   </el-col> -->
+             <el-col :span="20"  ><div v-html="item.optionB" ></div></el-col>
             </el-row>
-          <el-row>
-            <el-col :offset="2">
-             <el-radio v-model="item.stuAnswer" label="C">C、{{item.optionC}}</el-radio>
+          <el-row  type="flex" align="middle">
+            <el-col :offset="2" :span="0.5">
+              <el-radio v-model="item.stuAnswer" label="C">C.</el-radio>
             </el-col>
+            <!-- <el-col :span="0.5"  class="option"> C.&nbsp;   </el-col> -->
+             <el-col :span="20"  ><div v-html="item.optionC" ></div></el-col>
             </el-row>
-          <el-row >
-            <el-col :offset="2">
-              <el-radio v-model="item.stuAnswer" label="D">D、{{item.optionD}}</el-radio>
+         <el-row  type="flex" align="middle">
+            <el-col :offset="2" :span="0.5">
+              <el-radio v-model="item.stuAnswer" label="D">D.</el-radio>
             </el-col>
+            <!-- <el-col :span="0.5" class="option" > D.&nbsp;   </el-col> -->
+             <el-col :span="20"  ><div v-html="item.optionD" ></div></el-col>
             </el-row>
       </div>
       </div>
@@ -48,30 +55,55 @@
       <div v-for="(item,index) in judgementData" :key="index" class="line marginBottom">
         <el-row class="marginBottom">
            <el-col :span="1" :offset="1">{{index+1}}</el-col>
-           <el-col :span="20"><div>{{item.question}}</div></el-col>
+           
+              <el-col :span="20"><div v-html='item.question'></div></el-col>
         </el-row>
           <el-row >
             <el-col :offset="2">
-               <el-radio v-model="item.stuAnswer" label="T">{{item.optionA}}</el-radio>
+               <el-radio v-model="item.stuAnswer" label="True">{{item.optionA}}</el-radio>
             </el-col>
             
             </el-row>
           <el-row >
             <el-col :offset="2">
-              <el-radio v-model="item.stuAnswer" label="F">{{item.optionB}}</el-radio>
+              <el-radio v-model="item.stuAnswer" label="False">{{item.optionB}}</el-radio>
             </el-col>
             </el-row>
       </div>
       </div>
 
-    <el-button class="submit" @click="open">发送给学生</el-button>
+    <el-button class="submit" @click="dialogFormVisible=true">发送给学生</el-button>
+
+
+<el-dialog title="" :visible.sync="dialogFormVisible" width="30%">
+  <el-form>
+    <el-form-item label="设置时长">
+      <el-input v-model="time" ></el-input>
+    </el-form-item>
+   
+  </el-form>
+  <div slot="footer" class="dialog-footer">
+    <el-button @click="dialogFormVisible = false">取 消</el-button>
+    <el-button type="primary" @click="open">确 定</el-button>
+  </div>
+</el-dialog>
+
+
+
+
+
 
   </el-card>
+
+
+  
 </template>
 <script>
 export default {
   data(){
     return {
+      time:0,
+      dialogFormVisible:false
       // title:'2021年数学期末考试题目',
       // choiceData:{
       //   value:4,
@@ -133,6 +165,9 @@ export default {
     title(){
       return this.$store.getters.getTitle
     },
+    //  time(){
+    //   return this.$store.getters.getTime
+    // },
     choiceData(){
        return this.$store.getters.getChoiceQuestion
     },
@@ -157,9 +192,17 @@ export default {
     },
 
     open(){
+
+     
+
+
+this. dialogFormVisible = false
+
+
       let me =this
       let paperData={}
       paperData.title=me.title
+       paperData.time=me.time
       paperData.date=new Date().toLocaleDateString()
       paperData.tid = 20210321
       paperData.choiceData=me.choiceData
@@ -229,5 +272,8 @@ export default {
   .submit{
     display: block;
     margin:0 auto;
+  }
+  .option{
+    margin-right:10px
   }
 </style>

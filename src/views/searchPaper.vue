@@ -25,9 +25,46 @@
 export default {
   methods:{
     handleClick(row){
-      let paperNO = row.paperNO
-      console.log(paperNO)
-       this.$router.push('/onlinePaper')
+      let me=this
+  let queryArr={
+    pid:row.pid
+  }
+  me.$axios.post('http://localhost:3000/searchPaperTime',{data:queryArr}).then(
+
+            function(res){
+              if (res.data.code===200){
+                
+                me.$store.commit("setTime",res.data.data.time)
+                
+              
+              }else{
+                 console.log("查询失败") 
+              }
+            }
+           
+          )
+
+
+     
+       queryArr={"pid":row.pid}
+      me.$axios.post('http://localhost:3000/loadPaper',{data:queryArr}).then(
+
+            function(res){
+              if (res.data.code===200){
+              
+                // me.$router.push('/answerPaper')
+                console.log(res.data.data)
+                // me.$router.push({ name: 'answerPaper', params: res.data.data})
+                me.$store.commit('setPaper',res.data.data)
+
+                me.$router.push('/onlinePaper')
+              }else{
+                 console.log("查询失败") 
+              }
+            }
+           
+          )
+      
     }
   },
   created(){

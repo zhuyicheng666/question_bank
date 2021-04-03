@@ -6,11 +6,12 @@
 <script>
 export default {
    name:'countDown',
+  
      data() {
                 return {
-                    hours: 1,
-                    minutes: 10,
-                    seconds: 0
+                 seconds:0,
+                 minutes:0,
+                 hours:0
                 }
             },
             mounted() {
@@ -23,6 +24,10 @@ export default {
                 },
                 // 倒计时函数
                 add() {
+                     this.minutes= this.$store.getters.getTime%60
+                 
+                    this.hours= parseInt(this.$store.getters.getTime/60)
+                 
                     let time = window.setInterval( ()=> {
                         if (this.hours !== 0 && this.minutes === 0 && this.seconds === 0) {
                             this.hours -= 1;
@@ -74,7 +79,15 @@ export default {
                 },
                 hour() {
                     return this.num(this.hours)
-                }
+                },
+                
+            },
+            created(){
+                 
+            this.minutes= this.$store.getters.getTime%60
+                 
+            this.hours= parseInt(this.$store.getters.getTime/60)
+                 
             }
 
 }

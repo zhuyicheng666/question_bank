@@ -8,7 +8,16 @@ export default new Vuex.Store({
   state: {
     choosedItems:[],
     choosedItemsQuestion:[],
-    title:""
+    title:"",
+    time:0,
+    paper:{
+      title:'',
+      time:0,
+      pid:-1,
+      choiceData:[],
+      judgementData:[]
+    },
+    answeredPaperRecord:[]
   },
   mutations: {
     add(state,id) {
@@ -17,9 +26,18 @@ export default new Vuex.Store({
       
       }
     },
+    setPaper(state,paper) {
+     state.paper=paper
+    },
+    setAnsweredPaperRecord(state,answeredPaperRecord) {
+      state.answeredPaperRecord=answeredPaperRecord
+     },
     setTitle(state,title) {
      state.title=title
     },
+    setTime(state,time) {
+      state.time=time
+     },
     delete(state,id) {
       let index = state.choosedItems.indexOf(id);
       if (index !== -1) {
@@ -31,7 +49,7 @@ export default new Vuex.Store({
         }
       })
     },
-
+   
     loadQuestion(state,arr){
       state.choosedItemsQuestion=arr
     }
@@ -42,8 +60,17 @@ export default new Vuex.Store({
   modules: {
   },
   getters:{
+    getPaper:function(state){
+      return state.paper
+    },
     getTitle:function(state){
       return state.title
+    },
+     getAnsweredPaperRecord:function(state){
+      return state.answeredPaperRecord
+    },
+    getTime:function(state){
+      return state.time
     },
     getChoosedItemsNumber:function(state){
       return state.choosedItems.length

@@ -1,66 +1,74 @@
 <template>
 
   <div>
-    <countDown class="countDown"/>
+    <countDown class="countDown" />
     <el-card class="box-card" id="pdfDom">
-      <h2 class="title">{{title}}</h2>
+      <h2 class="title">{{paper.title}}</h2>
 
-      <div class="Choice">
+       <div class="Choice" v-if="paper.choiceData.length!==0">
       <el-row>
-        <el-col :offset="1"><h3>选择题(每题{{choiceData.value}}分)</h3></el-col>
+        <!-- <el-col :offset="1"><h3>选择题(每题{{choiceData.value}}分)</h3></el-col> -->
+        <el-col :offset="1"><h3>选择题</h3></el-col>
       </el-row>
 
-      <div v-for="(item,index) in choiceData.data" :key="index" class="line marginBottom">
+      <div v-for="(item,index) in paper.choiceData" :key="index" class="line marginBottom">
         <el-row class="marginBottom">
            <el-col :span="1" :offset="1">{{index+1}}</el-col>
-           <el-col :span="18"><div>{{item.desc}}</div></el-col>
-           <el-col :span="2">
-             <img src="../assets/img/text.jpg" class="img">
-           </el-col>
+           <el-col :span="20"><div v-html='item.question'></div></el-col>
+        </el-row>
+          <el-row  type="flex" align="middle">
+            <el-col :offset="2" :span="0.5">
+               <el-radio v-model="item.stuAnswer"  label="A">A.</el-radio>
+            </el-col>
+             <!-- <el-col :span="0.5"  class="option"> A.&nbsp;   </el-col> -->
+             <el-col :span="20"  ><div v-html="item.optionA" ></div></el-col>
+            </el-row>
+          <el-row  type="flex" align="middle">
+            <el-col :offset="2" :span="0.5">
+              <el-radio v-model="item.stuAnswer" label="B">B.</el-radio>
+            </el-col>
+            <!-- <el-col :span="0.5" class="option" > B. &nbsp;   </el-col> -->
+             <el-col :span="20"  ><div v-html="item.optionB" ></div></el-col>
+            </el-row>
+          <el-row  type="flex" align="middle">
+            <el-col :offset="2" :span="0.5">
+              <el-radio v-model="item.stuAnswer" label="C">C.</el-radio>
+            </el-col>
+            <!-- <el-col :span="0.5"  class="option"> C.&nbsp;   </el-col> -->
+             <el-col :span="20"  ><div v-html="item.optionC" ></div></el-col>
+            </el-row>
+         <el-row  type="flex" align="middle">
+            <el-col :offset="2" :span="0.5">
+              <el-radio v-model="item.stuAnswer" label="D">D.</el-radio>
+            </el-col>
+            <!-- <el-col :span="0.5" class="option" > D.&nbsp;   </el-col> -->
+             <el-col :span="20"  ><div v-html="item.optionD" ></div></el-col>
+            </el-row>
+      </div>
+      </div>
+
+       <div class="Judge" v-if="paper.judgementData.length!==0">
+      <el-row>
+        <!-- <el-col :offset="1"><h3>判断题(每题{{judgementData.value}}分)</h3></el-col> -->
+        <el-col :offset="1"><h3>判断题</h3></el-col>
+      </el-row>
+      
+
+      <div v-for="(item,index) in paper.judgementData" :key="index" class="line marginBottom">
+        <el-row class="marginBottom">
+           <el-col :span="1" :offset="1">{{index+1}}</el-col>
+           
+              <el-col :span="20"><div v-html='item.question'></div></el-col>
         </el-row>
           <el-row >
             <el-col :offset="2">
-               <el-radio v-model="item.stuAnswer"  label="A">A、{{item.option1}}</el-radio>
+               <el-radio v-model="item.stuAnswer" label="True">{{item.optionA}}</el-radio>
             </el-col>
             
             </el-row>
           <el-row >
             <el-col :offset="2">
-              <el-radio v-model="item.stuAnswer" label="B">B、{{item.option2}}</el-radio>
-            </el-col>
-            </el-row>
-          <el-row>
-            <el-col :offset="2">
-             <el-radio v-model="item.stuAnswer" label="C">C、{{item.option3}}</el-radio>
-            </el-col>
-            </el-row>
-          <el-row >
-            <el-col :offset="2">
-              <el-radio v-model="item.stuAnswer" label="D">D、{{item.option4}}</el-radio>
-            </el-col>
-            </el-row>
-      </div>
-      </div>
-
-       <div class="Judge">
-      <el-row>
-        <el-col :offset="1"><h3>判断题(每题{{judgementData.value}}分)</h3></el-col>
-      </el-row>
-
-      <div v-for="(item,index) in judgementData.data" :key="index" class="line marginBottom">
-        <el-row class="marginBottom">
-           <el-col :span="1" :offset="1">{{index+1}}</el-col>
-           <el-col :span="20"><div>{{item.desc}}</div></el-col>
-        </el-row>
-          <el-row >
-            <el-col :offset="2">
-               <el-radio v-model="item.stuAnswer" label="T">{{item.option1}}</el-radio>
-            </el-col>
-            
-            </el-row>
-          <el-row >
-            <el-col :offset="2">
-              <el-radio v-model="item.stuAnswer" label="F">{{item.option2}}</el-radio>
+              <el-radio v-model="item.stuAnswer" label="False">{{item.optionB}}</el-radio>
             </el-col>
             </el-row>
       </div>
@@ -81,132 +89,139 @@ export default {
    },
   data(){
     return {
-      title:'2021年数学期末考试题目',
-      choiceData:{
-        value:4,
-        getValue:0,
-        data:[
-          {
-          id: "12987122",
-          level: "1级",
-          knowledge: "这是选择题",
-          desc: "1+1等于2( )",
-          chapter: "加法",
-          frequency: 3,
-          option1:"A:optionA",
-          option2:"B:optionB",
-          option3:"C:optionC",
-          option4:"D:optionD",
-          answer:"A",
-          type:"choice"
-          },
-          {
-          id: "12987122",
-          level: "1级",
-          knowledge: "这是选择题",
-          desc: "1+1等于2( )1+1等于2( )1+1等于2( )1+1等于2( )1+1等于2( )1+1等于2( )1+1等于2( )1+1等于2( )1+1等于2( )1+1等于2( )1+1等于2( )1+1等于2( )1+1等于2( )1+1等于2( )1+1等于2( )1+1等于2( )1+1等于2( )1+1等于2( )1+1等于2( )1+1等于2( )1+1等于2( )1+1等于2( )1+1等于2( )1+1等于2( )1+1等于2( )1+1等于2( )1+1等于2( )",
-          chapter: "加法",
-          frequency: 3,
-          option1:"A:optionA",
-          option2:"B:optionB",
-          option3:"C:optionC",
-          option4:"D:optionD",
-          answer:"A",
-          type:"choice"
-          }
+      
+      // title:'2021年数学期末考试题目',
+      // choiceData:{
+      //   value:4,
+      //   getValue:0,
+      //   data:[
+      //     {
+      //     id: "12987122",
+      //     level: "1级",
+      //     knowledge: "这是选择题",
+      //     desc: "1+1等于2( )",
+      //     chapter: "加法",
+      //     frequency: 3,
+      //     option1:"A:optionA",
+      //     option2:"B:optionB",
+      //     option3:"C:optionC",
+      //     option4:"D:optionD",
+      //     answer:"A",
+      //     type:"choice"
+      //     },
+      //     {
+      //     id: "12987122",
+      //     level: "1级",
+      //     knowledge: "这是选择题",
+      //     desc: "1+1等于2( )1+1等于2( )1+1等于2( )1+1等于2( )1+1等于2( )1+1等于2( )1+1等于2( )1+1等于2( )1+1等于2( )1+1等于2( )1+1等于2( )1+1等于2( )1+1等于2( )1+1等于2( )1+1等于2( )1+1等于2( )1+1等于2( )1+1等于2( )1+1等于2( )1+1等于2( )1+1等于2( )1+1等于2( )1+1等于2( )1+1等于2( )1+1等于2( )1+1等于2( )1+1等于2( )",
+      //     chapter: "加法",
+      //     frequency: 3,
+      //     option1:"A:optionA",
+      //     option2:"B:optionB",
+      //     option3:"C:optionC",
+      //     option4:"D:optionD",
+      //     answer:"A",
+      //     type:"choice"
+      //     }
          
-        ]
-      },
-      judgementData:{
-        value:3,
-        getValue:0,
-        data:[
-           {
-          id: "12987122",
-          level: "1级",
-          knowledge: "这是选择题",
-          desc: "1+1等于2( )",
-          chapter: "加法",
-          frequency: 3,
-          option1:"A:true",
-          option2:"B:false",
-          answer:"A",
-          type:"judge"
-          },
-           {
-          id: "12987122",
-          level: "1级",
-          knowledge: "这是选择题",
-          desc: "1+1等于2( )",
-          chapter: "加法",
-          frequency: 3,
-          option1:"A:true",
-          option2:"B:false",
-          answer:"A",
-          type:"judge"
-          },
-           {
-          id: "12987122",
-          level: "1级",
-          knowledge: "这是选择题",
-          desc: "1+1等于2( )",
-          chapter: "加法",
-          frequency: 3,
-          option1:"A:true",
-          option2:"B:false",
-          answer:"A",
-          type:"judge"
-          },
-           {
-          id: "12987122",
-          level: "1级",
-          knowledge: "这是选择题",
-          desc: "1+1等于2( )",
-          chapter: "加法",
-          frequency: 3,
-          option1:"A:true",
-          option2:"B:false",
-          answer:"A",
-          type:"judge"
-          },
-           {
-          id: "12987122",
-          level: "1级",
-          knowledge: "这是选择题",
-          desc: "1+1等于2( )",
-          chapter: "加法",
-          frequency: 3,
-          option1:"A:true",
-          option2:"B:false",
-          answer:"A",
-          type:"judge"
-          },
-           {
-          id: "12987122",
-          level: "1级",
-          knowledge: "这是选择题",
-          desc: "1+1等于2( )",
-          chapter: "加法",
-          frequency: 3,
-          option1:"A:true",
-          option2:"B:false",
-          answer:"A",
-          type:"judge"
-          },
+      //   ]
+      // },
+      // judgementData:{
+      //   value:3,
+      //   getValue:0,
+      //   data:[
+      //      {
+      //     id: "12987122",
+      //     level: "1级",
+      //     knowledge: "这是选择题",
+      //     desc: "1+1等于2( )",
+      //     chapter: "加法",
+      //     frequency: 3,
+      //     option1:"A:true",
+      //     option2:"B:false",
+      //     answer:"A",
+      //     type:"judge"
+      //     },
+      //      {
+      //     id: "12987122",
+      //     level: "1级",
+      //     knowledge: "这是选择题",
+      //     desc: "1+1等于2( )",
+      //     chapter: "加法",
+      //     frequency: 3,
+      //     option1:"A:true",
+      //     option2:"B:false",
+      //     answer:"A",
+      //     type:"judge"
+      //     },
+      //      {
+      //     id: "12987122",
+      //     level: "1级",
+      //     knowledge: "这是选择题",
+      //     desc: "1+1等于2( )",
+      //     chapter: "加法",
+      //     frequency: 3,
+      //     option1:"A:true",
+      //     option2:"B:false",
+      //     answer:"A",
+      //     type:"judge"
+      //     },
+      //      {
+      //     id: "12987122",
+      //     level: "1级",
+      //     knowledge: "这是选择题",
+      //     desc: "1+1等于2( )",
+      //     chapter: "加法",
+      //     frequency: 3,
+      //     option1:"A:true",
+      //     option2:"B:false",
+      //     answer:"A",
+      //     type:"judge"
+      //     },
+      //      {
+      //     id: "12987122",
+      //     level: "1级",
+      //     knowledge: "这是选择题",
+      //     desc: "1+1等于2( )",
+      //     chapter: "加法",
+      //     frequency: 3,
+      //     option1:"A:true",
+      //     option2:"B:false",
+      //     answer:"A",
+      //     type:"judge"
+      //     },
+      //      {
+      //     id: "12987122",
+      //     level: "1级",
+      //     knowledge: "这是选择题",
+      //     desc: "1+1等于2( )",
+      //     chapter: "加法",
+      //     frequency: 3,
+      //     option1:"A:true",
+      //     option2:"B:false",
+      //     answer:"A",
+      //     type:"judge"
+      //     },
 
-        ]
-      }
+      //   ]
+      // }
       }
     },
+  computed:{
+    paper(){
+      return this.$store.getters.getPaper
+    }
+  },
+  
   methods:{
     isFinished(){
       let chocieUnfinished=[],judgementUnfinished=[]
-      this.choiceData.data.forEach((item,index)=>{
+      this.paper.choiceData.forEach((item,index)=>{
         if(!item.stuAnswer){
           chocieUnfinished.push(index+1)
         }
       })
-      this.judgementData.data.forEach((item,index)=>{
+      this.paper.judgementData.forEach((item,index)=>{
         if(!item.stuAnswer){
           judgementUnfinished.push(index+1)
         }
@@ -239,12 +254,47 @@ export default {
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          // let result = this.judge()
+          let result = this.judge()
+          console.log(result)
           this.$message({
             type: 'success',
-            // message: result.score,
-            message: "成绩为100分"
+            message: '选择错题：'+result.choiceError+" 判断错题："+result.judgementError,
+            // message: "成绩为100分"
           });
+
+          
+          let queryArr={
+            sid:20210324,
+            paper:this.paper
+          }
+
+
+           this.$axios.post('http://localhost:3000/saveAllRecord',{data:queryArr}).then(
+
+            function(res){
+              if (res.data.code===200){
+                
+            
+                console.log("保存成功s")
+                
+              }else{
+                 console.log("保存失败") 
+              }
+            }
+           
+          )
+
+
+
+
+
+
+
+
+
+
+
+
            this.$router.push('/searchPaper')
         }).catch(() => {
           this.$message({
@@ -255,23 +305,20 @@ export default {
       
     },
     judge(){
-      let score=0, error=[]
-      this.choiceData.data.forEach((item)=>{
+      let  choiceError=[],judgementError=[]
+      console.log(this.paper)
+      this.paper.choiceData.forEach((item,index)=>{
         if(item.stuAnswer !== item.answer){
-          error.push(item)
-        }else{
-          score=score+this.choiceData.value
+          choiceError.push(index+1)
         }
       })
-      this.judgementData.data.forEach((item)=>{
+      this.paper.judgementData.forEach((item,index)=>{
         if(item.stuAnswer !== item.answer){
-          error.push(item)
-        }else{
-          score=score+this.judgementData.value
+          judgementError.push( index+1)
         }
       })
       return {
-        score,error
+        choiceError,judgementError
       }
     }
   }
