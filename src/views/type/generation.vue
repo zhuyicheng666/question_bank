@@ -35,7 +35,7 @@
         <input type="text"> -->
       </div>
 
-    <el-card class="box-card" id="pdfDom">
+    <el-card  id="pdfDom">
       <h1 class="title " :class="showUnderLine?'info':'afterInfo'">
         <!-- <h1 class="title afterInfo"> -->
         <input type="text" v-model="title"></h1>

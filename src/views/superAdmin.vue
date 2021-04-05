@@ -1,16 +1,38 @@
-<template >
-  <div class="login_bg">
+<template>
+<div>
+<div  class="logout">
+            <el-button @click="logout" >退出</el-button>
+     </div>
 
-    <h1 class="title">试题库系统-用户注册</h1>
+  <el-card class="card">
+  
 
-    <div class="login">
-      <!--注册表单部分 -->
+
+      <el-collapse v-model="activeName" accordion>
+  <el-collapse-item title="章节管理" name="1">
+   
+      <el-card class="box-card">
+  <div slot="header" class="clearfix">
+    <span>章节名称</span>
+    <el-button style="float: right; padding: 3px 0" type="text" @click="dialogFormVisible=true">增加</el-button>
+  </div>
+  <div v-for="o in chapterOption" :key="o.value" class="text item">
+    {{ o.value }}
+  </div>
+</el-card>
+
+
+
+
+  </el-collapse-item>
+  <el-collapse-item title="教师账号注册" name="2">
+   
       <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="150px" class="ruleForm">
 
         <!-- 身份选择 -->
         <el-form-item label="身份" prop="role">
           <el-radio-group v-model="ruleForm.role">
-            <el-radio label="学生"></el-radio>
+            <el-radio label="教师"></el-radio>
            
           </el-radio-group>
         </el-form-item>
@@ -26,7 +48,7 @@
         <el-form-item label="请再次输入密码" prop="secondPassword">
           <el-input v-model="ruleForm.secondPassword" placeholder="请再次输入密码" show-password></el-input>
         </el-form-item>
-      
+        
         <el-form-item label="名字" prop="name" >
           <el-input v-model="ruleForm.name" placeholder="请输入名字" ></el-input>
         </el-form-item>
@@ -39,16 +61,42 @@
         </el-form-item>
       </el-form>
 
-      <!-- 手动转跳登陆部分 -->
-      <router-link to="/login" class="to_register">返回登陆页面</router-link>
-    </div>
+
+
+
+
+
+  </el-collapse-item>
+ 
+</el-collapse>
+
+ <el-dialog title="添加章节" :visible.sync="dialogFormVisible">
+  <el-form :model="form">
+    <el-form-item label="章节名称" >
+      <el-input v-model="form.chapter" autocomplete="off"  ></el-input>
+    </el-form-item>
+   
+  </el-form>
+  <div slot="footer" class="dialog-footer">
+    <el-button @click="cancel">取 消</el-button>
+    <el-button type="primary" @click="addChapter"  >确 定</el-button>
+  </div>
+</el-dialog>
+
+
+  </el-card>
   </div>
 </template>
 
+
 <script>
-export default {
-  name:"Register",
-  data() {
+  export default {
+  
+
+
+
+
+    data() {
     
     //这是一个自定义验证规则 其中reg一个判单11个数字的正则表达式
     var validatePass = (rule, value, callback) => {
@@ -69,15 +117,21 @@ export default {
       }
     };
     return {
+      form:{
+        chapter:''
+      },
+      dialogFormVisible:false,
+      chapterOption:[],
       //表单
       ruleForm: {
         userName: "",
         password: "",
-        role: "学生",
+        role: "教师",
         secondPassword: "",
         
         name:''
       },
+       activeName: '1',
       //规则
       rules: {
         userName: [
@@ -104,7 +158,68 @@ export default {
     };
   },
 
+  created(){
+     let me =this
+          me.$axios.post('http://localhost:3000/getChapter').then(
+
+
+            function(res){
+              if (res.data.code===200){
+                 res.data.data.forEach(item=>{
+                    me.chapterOption.push({
+                      value:item.chapter,
+                      label:item.chapter
+                    })
+                    
+                 })
+
+
+              }
+            }
+           
+          )
+  },
   methods: {
+    cancel(){
+      this.dialogFormVisible = false;
+     this.form.chapter=""
+    },
+     //退出
+    logout(){
+      // 清空sessionStorage的token
+      window.sessionStorage.clear()
+      // 转跳到登陆页面
+      this.$router.push('/login')
+    },
+    addChapter(){
+         let me =this
+         let queryArr={
+           chapter:this.form.chapter
+         }
+          me.$axios.post('http://localhost:3000/addChapter',{data:queryArr}).then(
+
+
+            function(res){
+              if (res.data.code===200){
+               
+                me.chapterOption.push({
+                  
+                      value:me.form.chapter,
+                      label:me.form.chapter
+                    
+                })
+              me.dialogFormVisible=false
+              me.form.chapter=""
+              }else{
+                   me.$message({
+                    message: '已存在,添加失败',
+                    type: 'warn'
+                  });
+              }
+            }
+           
+          )
+    },
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
         if (!valid) {
@@ -121,7 +236,7 @@ export default {
               userName: this.ruleForm.userName,
               password: this.ruleForm.password,
               name:this.ruleForm.name,
-           
+             
 
           }
             
@@ -132,7 +247,7 @@ export default {
               message: '恭喜你，注册成功',
               type: 'success'
              });
-               this.$router.push('/login')
+               this.resetForm('ruleForm')
               }else{
                 this.$message({
               message: res.data.message,
@@ -152,48 +267,36 @@ export default {
       this.$refs[formName].resetFields();
     }
   }
-};
+  }
 </script>
-
-<style lang="stylus" scoped>
-.login_bg {
-  background-image: url('/img/login_bg4.jpg');
-  background-size: cover;
-  position: fixed;
-  height: 100%;
-  width: 100%;
-  overflow: auto;
-
-  .title {
-    text-align: center;
-    margin-top: 6%;
+<style>
+  .text {
+    font-size: 14px;
   }
 
-  .to_register {
-    color: #b7b9bd;
-    text-decoration: none;
-    float: right;
-    margin-top: 6%;
-    margin-right: 2%;
+  .item {
+    margin-bottom: 18px;
   }
 
-  .login {
-    width: 600px;
-    height: 550px;
-    background-color: #ffffff;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    border-radius: 4px;
-
-    .ruleForm {
-      margin-top: 80px;
-
-      .el-input {
-        width: 80%;
-      }
-    }
+  .clearfix:before,
+  .clearfix:after {
+    display: table;
+    content: "";
   }
-}
+  .clearfix:after {
+    clear: both
+  }
+
+  .box-card {
+    width: 480px;
+  }
+  .card{
+    width: 90%;
+    margin: 0 auto;
+  }
+  .logout{
+    float:right;
+    margin-bottom:10px
+
+  }
 </style>

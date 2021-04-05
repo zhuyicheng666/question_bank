@@ -227,9 +227,9 @@
                 clearable
                 placeholder="格式为A,B,C,D!"
               ></el-input> -->
-                <el-radio v-model="form.answer" label="A">A</el-radio>
+              <el-radio v-model="form.answer" label="A">A</el-radio>
               <el-radio v-model="form.answer" label="B">B</el-radio>
-                <el-radio v-model="form.answer" label="C">C</el-radio>
+              <el-radio v-model="form.answer" label="C">C</el-radio>
               <el-radio v-model="form.answer" label="D">D</el-radio>
             </el-form-item>
             <el-form-item >
@@ -466,6 +466,10 @@ export default {
   methods: {
     resetForm(formName) {
       this.$refs[formName].resetFields();
+      this.editorArr.forEach(item=>{
+        item.txt.clear()
+      })
+      
     },
     onSubmit(formName) {
       this.$refs[formName].validate((valid) => {

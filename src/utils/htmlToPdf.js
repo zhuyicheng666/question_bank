@@ -6,8 +6,20 @@ export default{
     Vue.prototype.getPdf = function () {
       var title = this.title
       html2Canvas(document.querySelector('#pdfDom'), {
-        allowTaint: true
+        allowTaint: true,
+        useCORS:true,
+        logging:true
       }).then(function (canvas) {
+        
+        Array.from(document.getElementsByTagName('img'))
+    .map(img => (
+      img.crossOrigin = 'anonymous'
+    ))
+
+
+
+
+
         let contentWidth = canvas.width
         let contentHeight = canvas.height
         let pageHeight = contentWidth / 592.28 * 841.89
@@ -15,6 +27,7 @@ export default{
         let position = 0
         let imgWidth = 595.28
         let imgHeight = 592.28 / contentWidth * contentHeight
+        
         let pageData = canvas.toDataURL('image/jpeg', 1.0)
         let PDF = new JsPDF('', 'pt', 'a4')
         if (leftHeight < pageHeight) {

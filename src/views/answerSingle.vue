@@ -77,7 +77,7 @@
       <p v-if="singleData[no].text!==''">暂无解析</p>
       <p v-else v-html="singleData[no].text"></p>
     </el-card>
-     <el-button round @click="back">上一题</el-button>
+     <el-button class="marignleft" round @click="back">上一题</el-button>
       <el-button round @click="confirm">确认提交</el-button>
       <el-button round @click="next">下一题</el-button>
     </el-card>
@@ -187,6 +187,8 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+  width 1000px
+  margin 0 auto 
 }
 .font{
   font-size:38px
@@ -197,5 +199,9 @@ export default {
 }
 .optionFont{
   margin 23px
+}
+.marignleft{
+  margin-left 90px
+
 }
 </style>

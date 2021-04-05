@@ -8,6 +8,7 @@
         <el-col :offset="1"><h3>选择题</h3></el-col>
       </el-row>
 
+
       <div v-for="(item,index) in choiceData" :key="index" class="line marginBottom">
         <el-row class="marginBottom">
            <el-col :span="1" :offset="1">{{index+1}}</el-col>
@@ -15,12 +16,27 @@
         </el-row>
 
         <el-row  type="flex" align="middle">
-            <el-col :offset="2" :span="0.5">
+          
+            <el-col :offset='2' :span="0.5">
                <el-radio class="option" v-model="item.answer" :disabled="disabled(item.answer,'A')"  label="A">A. </el-radio>
             </el-col>
              <!-- <el-col :span="0.5"  class="option"> A.&nbsp;   </el-col> -->
+
+
+             
              <el-col :span="20"  ><div v-html="item.optionA" ></div></el-col>
+          
+              
+             
             </el-row>
+
+            <el-row  class="marginBottom">
+              <el-col :span="6" :offset="2" >
+                <el-progress :text-inside="true" :stroke-width="26" :percentage="percentage(item.optionsum,'A')" status="warning"></el-progress>
+              </el-col>
+             </el-row>
+
+
           <el-row  type="flex" align="middle">
             <el-col :offset="2" :span="0.5">
               <el-radio  class="option" v-model="item.answer" :disabled="disabled(item.answer,'B')" label="B">B. </el-radio>
@@ -28,6 +44,13 @@
             <!-- <el-col :span="0.5" class="option" > B. &nbsp;   </el-col> -->
              <el-col :span="20"  ><div v-html="item.optionB" ></div></el-col>
             </el-row>
+
+            <el-row class="marginBottom" >
+              <el-col :span="6" :offset="2" >
+                <el-progress :text-inside="true" :stroke-width="26" :percentage="percentage(item.optionsum,'B')" status="warning"></el-progress>
+              </el-col>
+             </el-row>
+
           <el-row  type="flex" align="middle">
             <el-col :offset="2" :span="0.5">
               <el-radio  class="option" v-model="item.answer" :disabled="disabled(item.answer,'C')" label="C">C.</el-radio>
@@ -35,6 +58,14 @@
             <!-- <el-col :span="0.5"  class="option"> C.&nbsp;   </el-col> -->
              <el-col :span="20"  ><div v-html="item.optionC" ></div></el-col>
             </el-row>
+
+
+             <el-row class="marginBottom" >
+              <el-col :span="6" :offset="2" >
+                <el-progress :text-inside="true" :stroke-width="26" :percentage="percentage(item.optionsum,'C')" status="warning"></el-progress>
+              </el-col>
+             </el-row>
+
          <el-row  type="flex" align="middle">
             <el-col :offset="2" :span="0.5">
               <el-radio class="option" v-model="item.answer" :disabled="disabled(item.answer,'D')" label="D">D.</el-radio>
@@ -46,7 +77,11 @@
 
 
 
-
+             <el-row  class="marginBottom">
+              <el-col :span="6" :offset="2" >
+                <el-progress :text-inside="true" :stroke-width="26" :percentage="percentage(item.optionsum,'D')" status="warning"></el-progress>
+              </el-col>
+             </el-row>
 
 
 
@@ -91,11 +126,27 @@
             </el-col>
             
             </el-row>
+
+ <el-row class="marginBottom" >
+              <el-col :span="6" :offset="2" >
+                <el-progress :text-inside="true" :stroke-width="26" :percentage="percentage(item.optionsum,'True')" status="warning" ></el-progress>
+              </el-col>
+             </el-row>
+
+
           <el-row >
             <el-col :offset="2">
               <el-radio v-model="item.answer"  :disabled="disabled(item.answer,'F')" label="F">{{item.optionB}}</el-radio>
             </el-col>
             </el-row>
+
+
+             <el-row class="marginBottom">
+              <el-col :span="6" :offset="2" >
+                <el-progress :text-inside="true" :stroke-width="26" :percentage="percentage(item.optionsum,'False')"  status="warning"></el-progress>
+              </el-col>
+             </el-row>
+
       </div>
       </div>
 
@@ -175,8 +226,25 @@ export default {
      
    } ,
   methods:{
-   
+   format() {
+      return 50
+    },
+ percentage(array,item){
+   let total=0,arrTotal=0
+   for (let i=0;i<array.length;i++){
+     if(array[i].stuAnswer===item){
+       total=array[i].total
+     }
+     arrTotal=arrTotal+array[i].total
+   }
+   if(arrTotal!==0){
+       return Math.round(total/arrTotal*100)
+   }else{
+     return 0
+   }
  
+ },
+
     disabled(value,value2){
       if(value === value2){
         return false
@@ -207,5 +275,8 @@ export default {
   }
   #pdfDom>>>.el-radio:last-child{
     margin-right 10px
+  }
+  .marginBottom{
+    margin-bottom:10px
   }
 </style>

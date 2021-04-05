@@ -24,7 +24,14 @@ import answerSingle from '../views/answerSingle.vue'
 import searchPaper from '../views/searchPaper.vue'
 import exercise from '../views/exercise.vue'
 import history from '../views/history.vue'
+import teacherIndex from '../views/teacherIndex.vue'
+import studentIndex from '../views/studentIndex.vue'
+import superAdmin from '../views/superAdmin.vue'
 Vue.use(VueRouter)
+
+  
+
+
 
   const routes = [
   {
@@ -47,7 +54,11 @@ Vue.use(VueRouter)
     name:'stuWrongAnswer',
     component:stuWrongAnswer
   },
- 
+  {
+    path:'/superAdmin',
+    name:'superAdmin',
+    component:superAdmin
+  },
   {
     path:'/stuPaperData',
     name: 'stuPaperData',
@@ -68,6 +79,16 @@ Vue.use(VueRouter)
         path:'/onlinePreview',
         name: 'onlinePreview',
         component:onlinePreview
+      },
+      {
+        path:'/teacherIndex',
+        name: 'teacherIndex',
+        component:teacherIndex
+      },
+      {
+        path:'/studentIndex',
+        name: 'studentIndex',
+        component:studentIndex
       },
       {
         path:'/answerPaper',

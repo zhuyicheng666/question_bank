@@ -21,8 +21,8 @@
                   
                     <!-- <el-menu-item index="/data"  >我的数据</el-menu-item> -->
                 
-
-                  
+                  <el-menu-item index="/teacherIndex" v-if="this.role==='teacher'">首页</el-menu-item>
+                  <el-menu-item index="/studentIndex" v-if="this.role==='student'">首页</el-menu-item>
                     <el-submenu index="/type" >
                       <template slot="title">题目类型</template>
                       
@@ -79,13 +79,13 @@ export default {
   data() {
     return {
       activeIndex: "/data",
-      role: "student"
+      role: "teacher"
 
     };
   },
   created(){
     console.log("123")
-    // this.role=window.localStorage.getItem("role")
+    this.role=window.localStorage.getItem("role")
     console.log("456")
   },
   methods: {

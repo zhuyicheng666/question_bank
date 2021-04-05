@@ -6,9 +6,9 @@
 
      <div class="login" >
        <!-- 角色切换部分 -->
-        <el-radio-group v-model="job" >
-          <el-radio-button label="学生入口"></el-radio-button>
-          <el-radio-button label="教师入口" ></el-radio-button>
+        <el-radio-group v-model="role" >
+          <el-radio-button label="学生入口" ></el-radio-button>
+          <el-radio-button label="教师入口"  ></el-radio-button>
         </el-radio-group>
 
       <!-- 用户名 密码 登陆部分 -->
@@ -18,8 +18,8 @@
         <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="ruleForm"  :hide-required-asterisk="true">
 
           <!-- prop属性对于规则 -->
-          <el-form-item label="手机号" prop="name">
-            <el-input v-model="ruleForm.name" placeholder="请输入手机号"></el-input>
+          <el-form-item label="手机号" prop="userName">
+            <el-input v-model="ruleForm.userName" placeholder="请输入手机号"></el-input>
           </el-form-item>
 
           <!-- show-password控制密码不可见 -->
@@ -35,7 +35,10 @@
         </el-form>
         
         <!-- 转跳注册部分 -->
-        <router-link to="/register" class="to_register">没有账户？立即注册一个</router-link>
+       
+        <router-link to="/register" class="to_register" v-if=" role === '学生入口'" 
+
+        >没有账户？立即注册一个</router-link>
      </div>
   </div>
 
@@ -64,17 +67,17 @@ export default {
 
     return{
         //角色切换
-        job:"学生入口",
+        role:"学生入口",
         //表单
         ruleForm: {
           role:'学生',
-          name: '',
+          userName: '',
           password:''
         },
         //表单规则
         rules: {
 
-          name: [
+          userName: [
             { required: true, message: '请输入手机号', trigger: 'blur' },
             { validator:validatePass, trigger:'blur'}
             
@@ -88,8 +91,8 @@ export default {
     }
   },
   watch:{
-    job(){
-      if (this.job==="学生入口"){
+    role(){
+      if (this.role==="学生入口"){
         this.ruleForm.role="学生"
       }else{
          this.ruleForm.role="教师"
@@ -99,7 +102,8 @@ export default {
   },
   methods: {
     submitForm(formName) {
-      this.$refs[formName].validate((valid) => {
+      let me =this
+      me.$refs[formName].validate((valid) => {
         if (!valid) {
          return false;
         } 
@@ -109,23 +113,35 @@ export default {
             返回 {token}
 
         */
-         this.$axios.post('http://localhost:3000/login',{data:this.ruleForm})
+         me.$axios.post('http://localhost:3000/login',{data:me.ruleForm})
          .then(function(res){
           
              //  1.登陆成功后，保存token到sessionStorage
              //  2.通过编程式导航转跳到主页面
              //  注：由于this问题，需要在函数后面bind
-          if(res.data.status===1){
-            window.sessionStorage.setItem('token',res.data.token);
+          if(res.data.code===200){
+            window.sessionStorage.setItem('token','res.data.token');
             
-            window.localStorage.setItem('role',res.data.data[0].role)
-            this.$router.push('/home')
+            
+            if (res.data.data.role ==="teacher"){
+              window.localStorage.setItem('tid',res.data.data.tid),
+              window.localStorage.setItem('role',res.data.data.role)
+               me.$router.push('/teacherIndex')
+            }else if (res.data.data.role ==="student"){
+              window.localStorage.setItem('sid',res.data.data.sid),
+              window.localStorage.setItem('role',res.data.data.role)
+               me.$router.push('/studentIndex')
+            }else{
+               me.$router.push('/superAdmin')
+            }
+           
+           
           }else{
             alert('用户名或密码不正确')
-            this.resetForm('ruleForm')
+            me.resetForm('ruleForm')
           }
           
-         }.bind(this)
+         }.bind(me)
         
          )
         }

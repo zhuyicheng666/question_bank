@@ -1,8 +1,10 @@
 <template>
 <el-card>
-   <el-table
+  <el-row type="flex" justify="center" >
+    <el-col :span="12">
+      <el-table
     :data="tableData"
-    border
+  
     >
     <el-table-column
       prop="pid"
@@ -31,11 +33,14 @@
       width="200">
       <template slot-scope="scope">
         
-        <el-button type="text" size="small" class="button" @click="checkAnswer(scope.row)" >查看答案</el-button>
+        <el-button type="text" size="small" class="button" @click="checkAnswer(scope.row)" >查看试卷详情</el-button>
         <el-button type="text" size="small" class="button" @click="checkStuResult(scope.row)">查看学生答题情况</el-button>
       </template>
     </el-table-column>
-  </el-table>
+    </el-table>
+    </el-col>
+  </el-row>
+   
 </el-card>
  
 </template>
@@ -45,8 +50,23 @@ export default {
   methods:{
     
     checkStuResult(row){
-      console.log(row)
-      this.$router.push('/stuResult')
+      let me =this
+      let queryArr={"pid":row.pid}
+      me.$axios.post('http://localhost:3000/loadAllStuResult',{data:queryArr}).then(
+
+            function(res){
+              if (res.data.code===200){
+              
+               
+            
+               me.$router.push({ name: 'stuResult', params: {result:res.data.data}})
+                
+              }else{
+                 console.log("查询失败") 
+              }
+            }
+           
+          )
     },
     checkAnswer(row){
       let me =this
