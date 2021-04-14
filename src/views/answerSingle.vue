@@ -108,7 +108,7 @@ export default {
     next(){
       if( this.singleData[this.no].confirm===true){
        let queryArr={
-            sid:20210324,
+            sid:window.localStorage.getItem("sid"),
             record:this.singleData[this.no]
           }
         let me =this
@@ -120,7 +120,7 @@ export default {
                 
             
                  me.$store.commit('delete',queryArr.record.qid)
-                
+                me.no=me.no-1
               }else{
                  console.log("保存失败") 
               }
@@ -138,7 +138,7 @@ export default {
      back(){
        if( this.singleData[this.no].confirm===true){
        let queryArr={
-            sid:20210324,
+            sid:window.localStorage.getItem("sid"),
             record:this.singleData[this.no]
           }
 
@@ -148,9 +148,9 @@ export default {
             function(res){
               if (res.data.code===200){
                 
-            
+             
                   me.$store.commit('delete',queryArr.record.qid)
-                
+                 me.no=me.no-1
               }else{
                  console.log("保存失败") 
               }
@@ -162,7 +162,7 @@ export default {
       this.right= false
       this.no--
       if(this.no<0){
-        this.no=this.singleData.length
+        this.no=this.singleData.length-1
       }
     },
   },

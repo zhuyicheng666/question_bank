@@ -1,11 +1,11 @@
 <template>
   <div>
     <el-card class="exercise center">
-      <div v-if="show === true">
-        <el-button round @click="choose()">自选题目</el-button>
+      <!-- <div v-if="show === true">
+        <el-button round @click="choose()">自选题目</el-button> 
         <el-button round @click="random()">随机题目</el-button>
-      </div>
-      <div v-else>
+      </div> -->
+      <div >
         <el-row type="flex"  align="middle" justify="center">
           <el-col :span="5"> <span>难度 </span></el-col>
           <el-select v-model="valueList.difficulty" placeholder="请选择">

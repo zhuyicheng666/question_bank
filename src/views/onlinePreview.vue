@@ -11,7 +11,7 @@
 
       <div v-for="(item,index) in choiceData" :key="index" class="line marginBottom">
         <el-row class="marginBottom">
-           <el-col :span="1" :offset="1">{{index+1}}</el-col>
+           <el-col :span="1" :offset="1"><p>{{index+1}}</p></el-col>
            <el-col :span="20"><div v-html='item.question'></div></el-col>
         </el-row>
           <el-row  type="flex" align="middle">
@@ -54,7 +54,7 @@
 
       <div v-for="(item,index) in judgementData" :key="index" class="line marginBottom">
         <el-row class="marginBottom">
-           <el-col :span="1" :offset="1">{{index+1}}</el-col>
+           <el-col :span="1" :offset="1"><p>{{index+1}}</p></el-col>
            
               <el-col :span="20"><div v-html='item.question'></div></el-col>
         </el-row>
@@ -72,7 +72,7 @@
       </div>
       </div>
 
-    <el-button class="submit" @click="dialogFormVisible=true">发送给学生</el-button>
+    <el-button class="submit" @click="dialogFormVisible=true">发布</el-button>
 
 
 <el-dialog title="" :visible.sync="dialogFormVisible" width="30%">
@@ -204,7 +204,7 @@ this. dialogFormVisible = false
       paperData.title=me.title
        paperData.time=me.time
       paperData.date=new Date().toLocaleDateString()
-      paperData.tid = 20210321
+      paperData.tid = window.localStorage.getItem("tid")
       paperData.choiceData=me.choiceData
       paperData.judgementData=me.judgementData
 

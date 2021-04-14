@@ -16,6 +16,7 @@
     "element-ui": "^2.13.2",
     "html2canvas": "^1.0.0-rc.5",
     "jspdf": "^1.5.3",
+    "lodash": "^4.17.21",
     "normalize.css": "^8.0.1",
     "pizzip": "^3.0.6",
     "vue": "^2.6.11",

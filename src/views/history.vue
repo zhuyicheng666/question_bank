@@ -59,7 +59,7 @@ export default {
   methods:{
     handleClick(row){
         let queryArr= {
-      sid:20210324,
+      sid:window.localStorage.getItem("sid"),
       pid:row.pid
     }
     let me =this
@@ -94,7 +94,7 @@ export default {
   },
   created(){
     let queryArr= {
-      sid:20210324
+      sid:window.localStorage.getItem("sid")
     }
     let me =this
      me.$axios.post('http://localhost:3000/searchPaperRecord',{data:queryArr}).then(

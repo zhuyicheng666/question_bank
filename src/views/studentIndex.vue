@@ -59,7 +59,8 @@ export default {
       name:'',
       total:0,
       mytotal:0,
-      studenttotal:0
+      wrongtotal:0, 
+      papertotal:0
     }
   },
   created(){

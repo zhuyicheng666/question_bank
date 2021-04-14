@@ -9,6 +9,8 @@ import axios from 'axios'
 import 'default-passive-events'
 import echarts from 'echarts'
 import htmlToPdf from './utils/htmlToPdf'
+import _ from 'lodash'
+Vue.prototype._ = _
 // 使用Vue.use()方法就会调用工具方法中的install方法
 Vue.use(htmlToPdf)
 

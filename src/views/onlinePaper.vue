@@ -13,7 +13,7 @@
 
       <div v-for="(item,index) in paper.choiceData" :key="index" class="line marginBottom">
         <el-row class="marginBottom">
-           <el-col :span="1" :offset="1">{{index+1}}</el-col>
+           <el-col :span="1" :offset="1"><p>{{index+1}}</p></el-col>
            <el-col :span="20"><div v-html='item.question'></div></el-col>
         </el-row>
           <el-row  type="flex" align="middle">
@@ -56,7 +56,7 @@
 
       <div v-for="(item,index) in paper.judgementData" :key="index" class="line marginBottom">
         <el-row class="marginBottom">
-           <el-col :span="1" :offset="1">{{index+1}}</el-col>
+           <el-col :span="1" :offset="1"><p>{{index+1}}</p></el-col>
            
               <el-col :span="20"><div v-html='item.question'></div></el-col>
         </el-row>
@@ -264,7 +264,7 @@ export default {
 
           
           let queryArr={
-            sid:20210324,
+            sid:window.localStorage.getItem("sid"),
             paper:this.paper
           }
 
@@ -274,7 +274,7 @@ export default {
             function(res){
               if (res.data.code===200){
                 
-            
+                
                 console.log("保存成功s")
                 
               }else{
@@ -295,7 +295,9 @@ export default {
 
 
 
-           this.$router.push('/searchPaper')
+           this.$router.push({path:'/searchPaper',query:{
+            t:Date.now() } })
+      
         }).catch(() => {
           this.$message({
             type: 'info',

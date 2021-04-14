@@ -12,7 +12,7 @@
           >
             <el-form-item label="章节" prop="chapter">
               <!-- <el-input v-model="form.chapter" clearable></el-input> -->
-              <el-select v-model="form.chapter" placeholder="请选择章节">
+              <el-select v-model="form.chapter" placeholder="请选择章节"  @change="getKnowledge">
                 <el-option
                   v-for="item in chapterOption"
                   :key="item.index"
@@ -22,7 +22,11 @@
               </el-select>
             </el-form-item>
             <el-form-item label="知识点" prop="knowledgePoint">
-              <el-input v-model="form.knowledgePoint" clearable></el-input>
+               <el-autocomplete
+              v-model="form.knowledgePoint"
+              :fetch-suggestions="querySearchAsync"
+              placeholder="请输入知识点"
+            ></el-autocomplete>
             </el-form-item>
 
             <el-form-item label="难度" prop="difficulty">
@@ -100,7 +104,7 @@
             ref="form"
           >
             <el-form-item label="章节" prop="chapter">
-             <el-select v-model="form.chapter" placeholder="请选择章节">
+             <el-select v-model="form.chapter" placeholder="请选择章节" @change="getKnowledge">
                 <el-option
                   v-for="item in chapterOption"
                   :key="item.index"
@@ -110,8 +114,13 @@
               </el-select>
             </el-form-item>
             <el-form-item label="知识点" prop="knowledgePoint">
-              <el-input v-model="form.knowledgePoint" clearable></el-input>
+               <el-autocomplete
+              v-model="form.knowledgePoint"
+              :fetch-suggestions="querySearchAsync"
+              placeholder="请输入知识点"
+            ></el-autocomplete>
             </el-form-item>
+           
 
             <el-form-item label="难度" prop="difficulty">
               <el-select v-model="form.difficulty" placeholder="请选择难度">
@@ -304,7 +313,8 @@ export default {
       }
     };
     return {
-
+      timeout:null,
+        suggest:[],
        editorArr:[],
       // editorContent:'',
       // editorText:"",
@@ -389,6 +399,7 @@ export default {
            
           )
 
+           
 
 
   
@@ -463,7 +474,44 @@ export default {
       createEditor('#judgementProcess','process',300,-1)
 
   },
+  watch:{
+
+  },
   methods: {
+    getKnowledge(value){
+      let me =this
+      let arr={
+        chapter:value
+      }
+        me.$axios.post('http://localhost:3000/getKnowledge',{data:arr}).then(
+
+            function(res){
+              if (res.data.code===200){
+                me.suggest=res.data.data
+              }
+              console.log(me.suggest)
+            }
+           
+          )
+    },
+      querySearchAsync(queryString, cb) {
+        var suggest = this.suggest;
+        var results = queryString ? suggest.filter(this.createStateFilter(queryString)) : suggest;
+
+        clearTimeout(this.timeout);
+        this.timeout = setTimeout(() => {
+          cb(results);
+        }, 3000 * Math.random());
+      },
+      createStateFilter(queryString) {
+        return (state) => {
+            let result 
+          if(state.value!==null){
+            result = state.value.indexOf(queryString)===0
+          }
+          return result;
+        };
+      },
     resetForm(formName) {
       this.$refs[formName].resetFields();
       this.editorArr.forEach(item=>{

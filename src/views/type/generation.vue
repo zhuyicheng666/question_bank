@@ -97,13 +97,13 @@
       </el-row>
       <div v-for="(item,index) in tableData" :key="index" class="line marginBottom">
         <el-row class="marginBottom">
-           <el-col :span="1" :offset="1">{{index+1}}</el-col>
+           <el-col :span="1" :offset="1" ><p>{{index+1}}</p></el-col>
            <el-col :span="20"><div v-html="item.question"></div></el-col>
         </el-row>
         
           
           <el-row class="marginBottom option" type="flex" align="middle" >
-            <el-col :span="0.5" :offset="2" > A.&nbsp;   </el-col>
+            <el-col :span="0.5" :offset="2" > A.&nbsp;    </el-col>
              <el-col :span="20"  ><div v-html="item.optionA" ></div></el-col>
           </el-row>
           <el-row class="marginBottom option"  type="flex" align="middle">
@@ -151,17 +151,18 @@
       </el-row>
       <div v-for="(item,index) in judgeTableData" :key="index" class="line marginBottom">
         <el-row class="marginBottom">
-           <el-col :span="1" :offset="1">{{index+1}}</el-col>
+           <el-col :span="1" :offset="1"><p>{{index+1}}</p></el-col>
+           <el-col :span="1"><p v-html="addBrackets('')"></p></el-col>
            <el-col :span="20"><div v-html="item.question"></div></el-col>
         </el-row>
-          <el-row class="marginBottom option" type="flex" align="middle" >
+          <!-- <el-row class="marginBottom option" type="flex" align="middle" >
             <el-col :span="0.5" :offset="2" > A.&nbsp;   </el-col>
              <el-col :span="20"  ><div v-html="item.optionA" ></div></el-col>
           </el-row>
           <el-row class="marginBottom option"  type="flex" align="middle">
             <el-col :span="0.5" :offset="2" > B. &nbsp;   </el-col>
              <el-col :span="20" ><div v-html="item.optionB" ></div></el-col>
-          </el-row>
+          </el-row> -->
       </div>
       </div>
       <!-- <div class="Calculate">
@@ -377,7 +378,7 @@ export default {
       this.getPdf('#pdfDom')
     },
     addBrackets(text){
-      return text + '（' +'\xa0\xa0\xa0\xa0\xa0\xa0\xa0'+' ）'
+      return text + '（' +'\xa0\xa0\xa0'+' ）'
     }
   },
   watch:{
@@ -471,5 +472,8 @@ export default {
     .option> div:first-child{
       margin-right:20px
 
+    }
+    .index{
+      text-align center
     }
 </style>

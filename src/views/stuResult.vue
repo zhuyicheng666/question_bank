@@ -147,13 +147,13 @@ export default {
   },
   computed:{
     tableData(){
-      return this.$route.params.result
+      return this.$store.getters.getResult
       
     },
     total(){
       
       let total=0
-      for(let i =0;i<this.$route.params.result.length;i++){
+      for(let i =0;i<this.$store.getters.getResult.length;i++){
         total++
       }
       return total
@@ -170,39 +170,39 @@ export default {
         least:0,
         most:0
       }
-      for(let i =0;i<this.$route.params.result.length;i++){
+      for(let i =0;i<this.$store.getters.getResult.length;i++){
         if(i===0){
-            interval.least=this.$route.params.result[0].score
-              interval.most=this.$route.params.result[0].score
+            interval.least=this.$store.getters.getResult[0].score
+              interval.most=this.$store.getters.getResult[0].score
         }
         
-        if(this.$route.params.result[i].score<interval.least){
-            interval.least=this.$route.params.result[i].score
+        if(this.$store.getters.getResult[i].score<interval.least){
+            interval.least=this.$store.getters.getResult[i].score
         }
-        if(this.$route.params.result[i].score>interval.least){
-            interval.most=this.$route.params.result[i].score
+        if(this.$store.getters.getResult[i].score>interval.least){
+            interval.most=this.$store.getters.getResult[i].score
         }
 
 
 
 
-      if (this.$route.params.result[i].score>=0&&this.$route.params.result[i].score<=5){
+      if (this.$store.getters.getResult[i].score>=0&&this.$store.getters.getResult[i].score<=5){
 
           interval.five= interval.five+1
         }
-       else if (this.$route.params.result[i].score>5&&this.$route.params.result[i].score<=10){
+       else if (this.$store.getters.getResult[i].score>5&&this.$store.getters.getResult[i].score<=10){
           interval.ten= interval.ten+1
         }
-       else  if (this.$route.params.result[i].score>10&&this.$route.params.result[i].score<=15){
+       else  if (this.$store.getters.getResult[i].score>10&&this.$store.getters.getResult[i].score<=15){
           interval.fifteen= interval.fifteen+1
         }
-        else if (this.$route.params.result[i].score>15&&this.$route.params.result[i].score<=20){
+        else if (this.$store.getters.getResult[i].score>15&&this.$store.getters.getResult[i].score<=20){
           interval.twenty= interval.twenty+1
         }
-         else   if (this.$route.params.result[i].score>20&&this.$route.params.result[i].score<=40){
+         else   if (this.$store.getters.getResult[i].score>20&&this.$store.getters.getResult[i].score<=40){
           interval.forty= interval.forty+1
         }
-           else   if (this.$route.params.result[i].score>40){
+           else   if (this.$store.getters.getResult[i].score>40){
           interval.more= interval.more+1
         }
       }
@@ -223,7 +223,7 @@ export default {
   methods: {
     checkWrong(row){
         let queryArr= {
-      sid:20210324,
+      sid:window.localStorage.getItem("sid"),
       pid:row.pid
     }
     let me =this

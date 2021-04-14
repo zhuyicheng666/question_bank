@@ -58,7 +58,7 @@ export default {
               if (res.data.code===200){
               
                
-            
+               me.$store.commit('setResult',res.data.data)
                me.$router.push({ name: 'stuResult', params: {result:res.data.data}})
                 
               }else{
@@ -78,6 +78,9 @@ export default {
               
                 // me.$router.push('/answerPaper')
                 console.log(res.data.data)
+
+                   
+                 me.$store.commit('setPaperData', res.data.data)
                  me.$router.push({ name: 'answerPaper', params: res.data.data})
                 
               }else{
@@ -90,7 +93,7 @@ export default {
     }
   },
   created(){
-      let me =this,tid=20210321
+      let me =this,tid=window.localStorage.getItem("tid")
       let queryArr={"tid":tid}
       me.$axios.post('http://localhost:3000/loadAllPaper',{data:queryArr}).then(
 

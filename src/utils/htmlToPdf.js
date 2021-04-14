@@ -9,16 +9,10 @@ export default{
         allowTaint: true,
         useCORS:true,
         logging:true
+      // }).then(
       }).then(function (canvas) {
         
-        Array.from(document.getElementsByTagName('img'))
-    .map(img => (
-      img.crossOrigin = 'anonymous'
-    ))
-
-
-
-
+      
 
         let contentWidth = canvas.width
         let contentHeight = canvas.height
@@ -44,6 +38,24 @@ export default{
         }
         PDF.save(title + '.pdf')
       }
+      // function(canvas) {
+
+      //   var contentWidth = canvas.width;
+      //   var contentHeight = canvas.height;
+      
+      //   var pageData = canvas.toDataURL('image/jpeg', 0.4);
+      
+      //   var pdfWidth = (contentWidth + 10) / 2 * 0.75;
+      //   var pdfHeight = (contentHeight + 200) / 2 * 0.75; // 500为底部留白
+      
+      //   var imgWidth = pdfWidth;
+      //   var imgHeight = (contentHeight / 2 * 0.75); //内容图片这里不需要留白的距离
+      
+      //   var pdf = new JsPDF('', 'pt', [pdfWidth, pdfHeight]);
+      //   pdf.addImage(pageData, 'jpeg', 0, 0, imgWidth, imgHeight);
+      //   pdf.save(title + '.pdf');
+      // }
+ 
       )
     }
   }

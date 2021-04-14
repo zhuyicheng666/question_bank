@@ -269,8 +269,8 @@
   }
   }
 </script>
-<style>
-  .text {
+<style  scoped>
+ .text {
     font-size: 14px;
   }
 

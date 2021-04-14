@@ -10,7 +10,7 @@
 
       <div v-for="(item,index) in choiceData" :key="index" class="line marginBottom">
         <el-row class="marginBottom">
-           <el-col :span="1" :offset="1">{{index+1}}</el-col>
+           <el-col :span="1" :offset="1"><p>{{index+1}}</p></el-col>
            <el-col :span="20"><div v-html='item.question'></div></el-col>
         </el-row>
 
@@ -87,18 +87,18 @@
 
       <div v-for="(item,index) in judgementData" :key="index" class="line marginBottom">
         <el-row class="marginBottom">
-           <el-col :span="1" :offset="1">{{index+1}}</el-col>
+           <el-col :span="1" :offset="1"><p>{{index+1}}</p></el-col>
           <el-col :span="20"><div v-html='item.question'></div></el-col>
         </el-row>
            <el-row >
             <el-col :offset="2">
-               <el-checkbox :class="{ 'wrong': answer2CheckboxCss(item.stuAnswer,'T',item.answer),'checked': answer2Checkbox(item.answer,'T',item.stuAnswer) }" :disabled="disabled(item.answer,'T')" label="T">{{item.optionA}}</el-checkbox>
+               <el-checkbox :class="{ 'wrong': answer2CheckboxCss(item.stuAnswer,'True',item.answer)}" :checked="answer2Checkbox(item.answer,'True',item.stuAnswer)"  :disabled="disabled(item.answer,'True',item.stuAnswer)" label="T">{{item.optionA}}</el-checkbox>
             </el-col>
             
             </el-row>
           <el-row >
             <el-col :offset="2">
-              <el-checkbox  :class="{ 'wrong': answer2CheckboxCss(item.stuAnswer,'F',item.answer),'checked': answer2Checkbox(item.answer,'F',item.stuAnswer) }" :disabled="disabled(item.answer,'F')" label="F">{{item.optionB}}</el-checkbox>
+              <el-checkbox  :class="{ 'wrong': answer2CheckboxCss(item.stuAnswer,'False',item.answer) }"  :checked="answer2Checkbox(item.answer,'False',item.stuAnswer)"  :disabled="disabled(item.answer,'False',item.stuAnswer)" label="F">{{item.optionB}}</el-checkbox>
             </el-col>
             </el-row>
       </div>
@@ -190,13 +190,15 @@ export default {
         return false
       }
     },
-        answer2CheckboxCss(value,value2,value3){
+    answer2CheckboxCss(value,value2,value3){
       if(value!==value3){
         if(value === value2){
         return true
       }else{
         return false
       }
+      }else{
+        return false
       }
       
     }
@@ -240,12 +242,15 @@ export default {
       background-color: red;
     border-color: red;
 }
-.wrong {
-  color:red
-}
+
 .tip{
   font-weight 400
   color red
 }
-
+.checked{
+  color #409EFF
+}
+.wrong {
+  color:red
+}
 </style>

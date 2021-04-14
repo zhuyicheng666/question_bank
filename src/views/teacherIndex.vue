@@ -21,16 +21,21 @@
     <el-row>
         <ul class="icon-list">
           <li  v-for="item in stutable" :key='item.sid'>
-            <el-popconfirm
-                  title="是否要删除学生"
-                  @onConfirm="deleteStu(item.sid)"
+            <el-popover
+                 
             >
+
+            <div style="text-align: right; margin: 0">
+              <el-button size="mini" type="text" @click=" deleteStu(item.sid)">删除学生</el-button>
+              <el-button type="primary" size="mini" @click="showHistory(item.sid)">查看学生答题历史</el-button>
+            </div>
+
             <el-button slot="reference" class="button">
             <i class="el-icon-user-solid" ></i>
             <span class=".icon-name " >{{item.name}}</span>
             </el-button>
 
-            </el-popconfirm>
+            </el-popover>
           </li>
           <li>
               <el-button class="button" @click="dialogFormVisible=true">
@@ -87,6 +92,10 @@ export default {
               }
             })
      
+    },
+    showHistory(sid){
+        window.localStorage.setItem('sid',sid)
+        this.$router.push('/history')
     },
     deleteStu(sid){
        let me =this
@@ -197,9 +206,9 @@ export default {
   }
   .icon-list li {
     float: left;
-    width: 16.66%;
+    
     text-align: center;
-    height: 120px;
+    
     line-height: 60px;
     color: #666;
     font-size: 13px;

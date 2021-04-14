@@ -23,8 +23,8 @@
                 
                   <el-menu-item index="/teacherIndex" v-if="this.role==='teacher'">首页</el-menu-item>
                   <el-menu-item index="/studentIndex" v-if="this.role==='student'">首页</el-menu-item>
-                    <el-submenu index="/type" >
-                      <template slot="title">题目类型</template>
+                    <el-submenu index="/type" v-if="this.role==='teacher'" >
+                      <template slot="title">题目列表</template>
                       
                       <el-menu-item index="/type-choice"  style="width:100px">选择</el-menu-item>
                       <!-- <el-menu-item index="/type-fill">填空</el-menu-item> -->
@@ -92,10 +92,13 @@ export default {
    
     //退出
     logout(){
+     
       // 清空sessionStorage的token
-      window.sessionStorage.clear()
+     
       // 转跳到登陆页面
       this.$router.push('/login')
+      this.$router.go(0) 
+      window.sessionStorage.clear()
     }
   }
 };

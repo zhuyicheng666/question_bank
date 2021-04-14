@@ -23,25 +23,26 @@
                   <li> {{props.row.optionB}}</li>
                 </ul>
               </el-form-item> -->
-              <el-form-item label="查看答案">
+              <div v-if="window.localStorage.getItem('role')!=='student'">
+              <!-- <el-form-item label="查看答案" >
                 <el-checkbox v-model="showAnswer[props.$index]"></el-checkbox>
-              </el-form-item>
-              <el-form-item label="答案:" v-if="showAnswer[props.$index]">
+              </el-form-item> -->
+              <el-form-item label="答案:" >
 
                 <!-- <span>{{props.row.answer}}</span> -->
                  <span>{{dataFormat(props.row.type,props.row.answer)}}</span>
               </el-form-item>
-
-
-            <el-form-item label="查看解析">
+              </div>
+             <div v-if="window.localStorage.getItem('role')!=='student'">
+            <!-- <el-form-item label="查看解析">
                 <el-checkbox v-model="showProcess[props.$index]"></el-checkbox>
-                </el-form-item>
-              <el-form-item label="解析:" v-if="showProcess[props.$index]">
+                </el-form-item> -->
+              <el-form-item label="解析:" v-if="props.row.text !== null">
 
                 <!-- <span>{{props.row.answer}}</span> -->
                  <span v-html="props.row.text"></span>
               </el-form-item>
-
+            </div>
 
 
             </el-form>
@@ -164,7 +165,7 @@ export default {
      showAnswer:[],
       showProcess:[],
       pageSize:5,
-      
+      window:window
       
     };
   },

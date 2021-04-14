@@ -17,6 +17,8 @@ export default new Vuex.Store({
       choiceData:[],
       judgementData:[]
     },
+    result:[],
+    paperData:[],
     answeredPaperRecord:[]
   },
   mutations: {
@@ -29,6 +31,12 @@ export default new Vuex.Store({
     setPaper(state,paper) {
      state.paper=paper
     },
+    setPaperData(state,paperData) {
+      state.paperData=paperData
+     },
+    setResult(state,result) {
+      state.result=result
+     },
     setAnsweredPaperRecord(state,answeredPaperRecord) {
       state.answeredPaperRecord=answeredPaperRecord
      },
@@ -62,6 +70,12 @@ export default new Vuex.Store({
   getters:{
     getPaper:function(state){
       return state.paper
+    },
+    getPaperData:function(state){
+      return state.paperData
+    },
+    getResult:function(state){
+      return state.result
     },
     getTitle:function(state){
       return state.title

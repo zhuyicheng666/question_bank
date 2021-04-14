@@ -71,7 +71,7 @@ export default {
       let me =this
       
       let queryArr ={
-        sid:20210324
+        sid:window.localStorage.getItem("sid")
       } 
       me.$axios.post('http://localhost:3000/searchPaper',{data:queryArr}).then(
 
