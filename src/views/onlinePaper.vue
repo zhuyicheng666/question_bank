@@ -89,7 +89,8 @@ export default {
    },
   data(){
     return {
-      
+      beforeUnload_time :0,
+      gap_time:0
       // title:'2021年数学期末考试题目',
       // choiceData:{
       //   value:4,
@@ -230,6 +231,7 @@ export default {
     },
 
     open(){
+      let me =this
       let result = this.isFinished()
       let msg=''
       if(result.chocieUnfinished.length === 0 && result.judgementUnfinished.length === 0){
@@ -276,7 +278,9 @@ export default {
                 
                 
                 console.log("保存成功s")
-                
+                 me.$store.commit('resetSpenttime',0)
+                 me.$router.push({path:'/searchPaper',query:{
+            t:Date.now() } })
               }else{
                  console.log("保存失败") 
               }
@@ -295,8 +299,7 @@ export default {
 
 
 
-           this.$router.push({path:'/searchPaper',query:{
-            t:Date.now() } })
+           
       
         }).catch(() => {
           this.$message({
@@ -322,9 +325,50 @@ export default {
       return {
         choiceError,judgementError
       }
+    },
+    halfCommit(){
+
+      let me =this
+      let queryArr={
+            sid:window.localStorage.getItem("sid"),
+            paper:this.paper,
+            spenttime:this.$store.getters.getSpenttime,
+            totaltime:this.$store.getters.getTotalTime
+          }
+
+
+          this.gap_time=new Date().getTime()-this.beforeUnload_time
+          if(this.gap_time<=5){
+           this.$axios.post('http://localhost:3000/saveHalfRecord',{data:queryArr}).then(
+
+            function(res){
+              if (res.data.code===200){
+                
+                  me.$store.commit('resetSpenttime',0)
+                console.log("保存成功s")
+                
+              }else{
+                 console.log("保存失败") 
+              }
+            }
+           
+          )}
+    }
+  },
+  
+  mounted(){
+    window.addEventListener('unload',this.halfCommit)
+    window.addEventListener('beforeunload',()=>{
+      this.beforeUnload_time=new Date().getTime();
+    })
+  },
+  watch:{
+    '$store.state.time':function(newvalue){
+      if(newvalue <= 0){
+        this.open()
+      }
     }
   }
-  
 }
 </script>
 <style  lang="stylus" scoped>

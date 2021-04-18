@@ -24,10 +24,11 @@ export default {
                 },
                 // 倒计时函数
                 add() {
-                     this.minutes= this.$store.getters.getTime%60
+                    let me = this
+                     this.minutes= parseInt(this.$store.getters.getTime%3600/60)
                  
-                    this.hours= parseInt(this.$store.getters.getTime/60)
-                 
+                        this.hours= parseInt(this.$store.getters.getTime/3600)
+                    this.seconds = this.$store.getters.getTime%60
                     let time = window.setInterval( ()=> {
                         if (this.hours !== 0 && this.minutes === 0 && this.seconds === 0) {
                             this.hours -= 1;
@@ -48,6 +49,8 @@ export default {
                         } else {
                             this.seconds -= 1;
                         }
+                        me.$store.commit('setSpenttime',1)
+                        me.$store.commit('deleteTimeBySec',1)
                     }, 1000)
                 }
             },
@@ -84,9 +87,9 @@ export default {
             },
             created(){
                  
-            this.minutes= this.$store.getters.getTime%60
+            this.minutes= parseInt(this.$store.getters.getTime%3600/60)
                  
-            this.hours= parseInt(this.$store.getters.getTime/60)
+            this.hours= parseInt(this.$store.getters.getTime/3600)
                  
             }
 

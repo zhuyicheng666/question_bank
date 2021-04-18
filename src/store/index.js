@@ -10,6 +10,7 @@ export default new Vuex.Store({
     choosedItemsQuestion:[],
     title:"",
     time:0,
+    spenttime:0,
     paper:{
       title:'',
       time:0,
@@ -19,6 +20,7 @@ export default new Vuex.Store({
     },
     result:[],
     paperData:[],
+    totaltime:0,
     answeredPaperRecord:[]
   },
   mutations: {
@@ -44,7 +46,22 @@ export default new Vuex.Store({
      state.title=title
     },
     setTime(state,time) {
+      state.time=time*60
+     },
+     setTotalTime(state,time){
+       state.totaltime=time
+     },
+     setTime2(state,time) {
       state.time=time
+     },
+     deleteTimeBySec(state,time){
+      state.time=state.time-time
+     },
+     setSpenttime(state,spenttime) {
+      state.spenttime=state.spenttime+spenttime
+     },
+     resetSpenttime(state,time){
+      state.spenttime=time
      },
     delete(state,id) {
       let index = state.choosedItems.indexOf(id);
@@ -77,6 +94,9 @@ export default new Vuex.Store({
     getResult:function(state){
       return state.result
     },
+    getTotalTime:function(state){
+      return state.totaltime
+    },
     getTitle:function(state){
       return state.title
     },
@@ -85,6 +105,9 @@ export default new Vuex.Store({
     },
     getTime:function(state){
       return state.time
+    },
+    getSpenttime:function(state){
+      return state.spenttime
     },
     getChoosedItemsNumber:function(state){
       return state.choosedItems.length

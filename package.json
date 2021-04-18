@@ -23,7 +23,8 @@
     "vue-axios": "^2.1.5",
     "vue-router": "^3.0.7",
     "vuex": "^3.4.0",
-    "wangeditor": "^4.6.12"
+    "wangeditor": "^4.6.12",
+    "xlsx": "^0.16.9"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.4.0",

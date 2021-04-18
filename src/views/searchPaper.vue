@@ -1,8 +1,9 @@
 <template>
   <el-card class="searchPaper">
-    <p class='tip'>以下为尚未作答试卷列表，如需查看已作答试卷请点击历史答题</p>
+    <p class="tip">以下为尚未作答试卷列表，如需查看已作答试卷请点击历史答题</p>
     <el-table :data="tableData" stripe style="width: 100%">
-      <el-table-column prop="pid" label="试卷编号" width="180"> </el-table-column>
+      <el-table-column prop="pid" label="试卷编号" width="180">
+      </el-table-column>
       <el-table-column prop="date" label="日期" width="180"> </el-table-column>
       <el-table-column prop="name" label="教师名" width="180">
       </el-table-column>
@@ -15,7 +16,6 @@
           <el-button @click="handleClick(scope.row)" type="text" size="small"
             >开始答题</el-button
           >
-          
         </template>
       </el-table-column>
     </el-table>
@@ -23,90 +23,138 @@
 </template>
 <script>
 export default {
-  methods:{
-    handleClick(row){
-      let me=this
-  let queryArr={
-    pid:row.pid
-  }
-  me.$axios.post('http://localhost:3000/searchPaperTime',{data:queryArr}).then(
+  methods: {
+    handleClick(row) {
+      let me = this;
+      let queryArr = {
+        pid: row.pid,
+        sid: window.localStorage.getItem("sid"),
+      };
 
-            function(res){
-              if (res.data.code===200){
-                
-                me.$store.commit("setTime",res.data.data.time)
-                
-              
-              }else{
-                 console.log("查询失败") 
-              }
-            }
-           
-          )
+      me.$axios
+        .post("http://localhost:3000/searchHalfRecord", { data: queryArr })
+        .then(function (res) {
+          if (res.data.code === 200) {
+            me.$axios
+              .post("http://localhost:3000/searchPaperTime", { data: queryArr })
+              .then(function (res) {
+                if (res.data.code === 200) {
+                  me.$store.commit("setTime", res.data.data.time);
+                } else {
+                  console.log("查询失败");
+                }
+              });
+
+            queryArr = { pid: row.pid };
+            me.$axios
+              .post("http://localhost:3000/loadPaper", { data: queryArr })
+              .then(function (res) {
+                if (res.data.code === 200) {
+                  // me.$router.push('/answerPaper')
+                  console.log(res.data.data);
+                  // me.$router.push({ name: 'answerPaper', params: res.data.data})
+                  me.$store.commit("setPaper", res.data.data);
+
+                  me.$router.push("/onlinePaper");
+                } else {
+                  console.log("查询失败");
+                }
+              });
+          }else if (res.data.code === 201){
+            let totaltime = new Date().getTime()-res.data.data.lasttime + res.data.data.totaltime
+            if(totaltime/1000>2.5*60){
+             
+               me.$axios
+              .post("http://localhost:3000/updateHalfRecord", { data: queryArr })
+              .then(function () {
+                //  alert("答题掉线时间累计超过15分钟,已自动交卷")
+                 me.$message({
+                    message: "答题掉线时间累计超过15分钟,已自动交卷",
+                    type: 'warn'
+                  });
+               me.$router.go(0)
+              })
+            }else{
+
+            
+            me.$store.commit("setTotalTime", totaltime);
+            me.$axios
+              .post("http://localhost:3000/searchHalfTime", { data: queryArr })
+              .then(function (res) {
+                if (res.data.code === 200) {
+
+                  let time = res.data.data.time*60-res.data.data.spenttime
+
+                       me.$store.commit("setTime2", time);
+                       me.$store.commit("setSpenttime",res.data.data.spenttime)
 
 
-     
-       queryArr={"pid":row.pid}
-      me.$axios.post('http://localhost:3000/loadPaper',{data:queryArr}).then(
+                  
+                     queryArr = { pid: row.pid,  sid: window.localStorage.getItem("sid"),};
+            me.$axios
+              .post("http://localhost:3000/searchAnsweredPaperRecord", { data: queryArr })
+              .then(function (res) {
+                if (res.data.code === 200) {
+                  // me.$router.push('/answerPaper')
+                  console.log(res.data.data);
+                  // me.$router.push({ name: 'answerPaper', params: res.data.data})
+                  me.$store.commit("setPaper", res.data.data);
 
-            function(res){
-              if (res.data.code===200){
-              
-                // me.$router.push('/answerPaper')
-                console.log(res.data.data)
-                // me.$router.push({ name: 'answerPaper', params: res.data.data})
-                me.$store.commit('setPaper',res.data.data)
 
-                me.$router.push('/onlinePaper')
-              }else{
-                 console.log("查询失败") 
-              }
-            }
-           
-          )
-      
-    }
+
+                 me.$axios
+                .post("http://localhost:3000/deleteHalfRecord", { data: queryArr }).then(function(){
+                   me.$router.push("/onlinePaper");
+                })
+
+
+
+                 
+                } else {
+                  console.log("查询失败");
+                }
+              });
+                } else {
+                  console.log("查询失败");
+                }
+              });
+
+         
+          }}
+        });
+    },
   },
-  created(){
-      let me =this
-      
-      let queryArr ={
-        sid:window.localStorage.getItem("sid")
-      } 
-      me.$axios.post('http://localhost:3000/searchPaper',{data:queryArr}).then(
+  created() {
+    let me = this;
 
-            function(res){
-              if (res.data.code===200){
-                
-                
-                me.tableData = res.data.data
-               
-              
-              }else{
-                 console.log("查询失败") 
-              }
-            }
-           
-          )
+    let queryArr = {
+      sid: window.localStorage.getItem("sid"),
+    };
+    me.$axios
+      .post("http://localhost:3000/searchPaper", { data: queryArr })
+      .then(function (res) {
+        if (res.data.code === 200) {
+          me.tableData = res.data.data;
+        } else {
+          console.log("查询失败");
+        }
+      });
   },
   data() {
     return {
-      tableData: [
-       
-      ],
+      tableData: [],
     };
   },
 };
 </script>
 <style lang="stylus" scoped>
-  .searchPaper{
-    width:1055px;
-    
-    margin: 0 auto
-  }
-  .tip{
-    color:red
-    font-size :14px
+.searchPaper {
+  width: 1055px;
+  margin: 0 auto;
+}
 
-  }
+.tip {
+  color: red;
+  font-size: 14px;
+}
 </style>>
