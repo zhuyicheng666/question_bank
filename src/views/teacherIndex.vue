@@ -20,6 +20,14 @@
        <input class="input-file" type="file" @change="exportData" style="display:none"
            accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"/>
       <button @click="btnClick">excel导入学生</button>
+      <el-popover
+  placement="right"
+  width="400"
+  trigger="click">
+  <img src="../assets/img/excel模板.png" />
+  <p>首行必须为英文且必须按图所示顺序与命名</p>
+  <el-button slot="reference">excel模板</el-button>
+</el-popover>
     </el-row>
     <el-row>
       <ul class="icon-list">
@@ -53,7 +61,7 @@
 
     <el-dialog title="添加学生" :visible.sync="dialogFormVisible">
       <el-form :model="form">
-        <el-form-item label="学生手机号">
+        <el-form-item label="学生学号">
           <el-input
             v-model="form.userName"
             autocomplete="off"

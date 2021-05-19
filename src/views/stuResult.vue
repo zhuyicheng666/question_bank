@@ -11,10 +11,10 @@
        总人数
     </el-col>
     <el-col :span='3' class="border grey">
-     错题数最少值
+     正确回答数最小值
     </el-col>
      <el-col :span='3' class="border grey">
-      错题数最大值
+      正确回答数最大值
     </el-col>
   </el-row>
     <el-row type="flex" justify="center" >
@@ -30,22 +30,22 @@
   </el-row>
 <el-row type="flex" justify="center"   class="margintop" >
     <el-col :span='3' class="border grey">
-      错题数0-5
+       正确回答数0-5
     </el-col>
  <el-col :span='3' class="border grey">
-      错题数6-10
+       正确回答数6-10
     </el-col>
      <el-col :span='3' class="border grey">
-      错题数11-15
+       正确回答数11-15
     </el-col>
      <el-col :span='3' class="border grey">
-      错题数16-20
+       正确回答数16-20
     </el-col>
      <el-col :span='3' class="border grey">
-      错题数21-40
+       正确回答数21-40
     </el-col>
      <el-col :span='3' class="border grey"> 
-      错题数40以上
+       正确回答数40以上
     </el-col>
 
   </el-row>
@@ -92,7 +92,7 @@
       </el-table-column>
       <!-- <el-table-column prop="time" label="答题时间" width="180">
       </el-table-column> -->
-      <el-table-column prop="score" label="错题数" width="180" sortable> </el-table-column>
+      <el-table-column prop="score" label="正确回答数" width="180" sortable> </el-table-column>
       <el-table-column label="操作" width="100">
         <template slot-scope="scope">
           <el-button @click="checkWrong(scope.row)" type="text" size="small"

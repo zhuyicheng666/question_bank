@@ -74,8 +74,8 @@
     <el-card v-show="wrong">
 
    
-      <p v-if="singleData[no].text!==''">暂无解析</p>
-      <p v-else v-html="singleData[no].text"></p>
+      
+      <p v-if="singleData[no].text!==''" v-html="singleData[no].text"></p>
     </el-card>
      <el-button class="marignleft" round @click="back">上一题</el-button>
       <el-button round @click="confirm">确认提交</el-button>

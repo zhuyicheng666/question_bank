@@ -15,8 +15,8 @@
           </el-radio-group>
         </el-form-item>
         <!-- 用户名 -->
-        <el-form-item label="手机号" prop="userName">
-          <el-input v-model="ruleForm.userName" placeholder="请输入手机号"></el-input>
+        <el-form-item label="账号" prop="userName">
+          <el-input v-model="ruleForm.userName" placeholder="请输入账号"></el-input>
         </el-form-item>
        <!-- 密码 -->
         <el-form-item label="密码" prop="password">

@@ -12,8 +12,6 @@
       </el-table-column>
       <el-table-column prop="title" label="试卷名" width="180">
       </el-table-column>
-      <el-table-column prop="time" label="考试用时" width="180">
-      </el-table-column>
       <el-table-column prop="score" label="成绩" width="180">
       </el-table-column>
       <el-table-column label="操作" width="100">

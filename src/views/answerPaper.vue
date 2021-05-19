@@ -1,7 +1,7 @@
 <template>
   <el-card class="box-card" id="pdfDom">
     <h2 class="title">{{ title }}</h2>
-    <el-switch v-model="sort" active-text="按正确率" inactive-text="">
+    <el-switch v-model="sort" active-text="按正确率升序" inactive-text="">
     </el-switch>
 
     <div v-show="sort===false">

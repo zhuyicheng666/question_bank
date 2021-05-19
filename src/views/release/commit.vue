@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-card shadow="always">
-      <h3>添加:</h3>
+      <h3>上传:</h3>
       <el-tabs tab-position="left" v-model="type">
         <el-tab-pane label="判断" name="judgement">
           <el-form
@@ -432,15 +432,11 @@ export default {
         let uploadUrl = 'http://localhost:3000/uploadImg';
 
         editor.config.showLinkImg = false
-          
            editor.config.uploadImgServer= uploadUrl//配置上传图片的接口api
            editor.config.uploadImgMaxSize=25 * 1024 * 1024//图片大小限制为 5M
            editor.config.uploadImgMaxLength= 10// 限制一次最多上传 10 张图片
            editor.config.uploadFileName='myFileName'//配置文件参数名（这个参数必需配置，后台用这个值接收图片）
-            
-      
- 
- 
+
     //监听函数在上传图片的不同阶段做相应处理
         editor.config.uploadImgHooks = {
             success: function () {

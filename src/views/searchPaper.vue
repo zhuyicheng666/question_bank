@@ -62,7 +62,7 @@ export default {
               });
           }else if (res.data.code === 201){
             let totaltime = new Date().getTime()-res.data.data.lasttime + res.data.data.totaltime
-            if(totaltime/1000>2.5*60){
+            if(totaltime/1000>0.5*60){
              
                me.$axios
               .post("http://localhost:3000/updateHalfRecord", { data: queryArr })

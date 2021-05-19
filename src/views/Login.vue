@@ -18,8 +18,8 @@
         <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="ruleForm"  :hide-required-asterisk="true">
 
           <!-- prop属性对于规则 -->
-          <el-form-item label="手机号" prop="userName">
-            <el-input v-model="ruleForm.userName" placeholder="请输入手机号"></el-input>
+          <el-form-item label="账号" prop="userName">
+            <el-input v-model="ruleForm.userName" placeholder="请输入账号"></el-input>
           </el-form-item>
 
           <!-- show-password控制密码不可见 -->
@@ -28,7 +28,7 @@
           </el-form-item>
           
           <el-form-item>
-            <el-button type="primary" @click="submitForm('ruleForm')">登陆</el-button>
+            <el-button type="primary" @click="submitForm('ruleForm')">登录</el-button>
             <el-button @click="resetForm('ruleForm')">重置</el-button>
           </el-form-item>
 
